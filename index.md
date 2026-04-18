@@ -1,5 +1,5 @@
 ---
-title: This is the title of our awesome micropublication
+title: REM Sleep Disorder Dominates Heterogeneity in Longitudinal, Multidomain Analysis of PPMI's PD Cohort
 abstract: |
     This is a 100-150 word summary of our research, including the main objective, methods, key results, and conclusions. The abstract should provide readers with a clear overview of what the micropublication contains and its significance. Include the research question or hypothesis, the methodology employed, the key findings, and the main conclusions or implications of the work. This summary helps readers quickly assess whether the full content is relevant to their interests.
 acknowledgments: |
