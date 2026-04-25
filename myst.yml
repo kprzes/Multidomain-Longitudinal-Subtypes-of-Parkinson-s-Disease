@@ -8,60 +8,33 @@ project:
   # doi: 10.5281/zenodo.XXXXXXX
   # date: YYYY-MM-DD
   authors:
-  - name: Doe, J.
-    orcid: 0000-0000-0000-0001
-    affiliations:
-    - Department of Geosciences and Natural Resource Management, University of Copenhagen, Denmark
-    roles:
-    - Conceptualization
-    - Formal analysis
-    - Investigation
-    - Methodology
-    - Software
-    - Visualization
-    - Writing - original draft
-    - Writing - review & editing
-  - name: Sharma, A.J.
-    orcid: 0000-0000-0000-0002
-    affiliations:
-    - Department of Earth Sciences, Indian Institute of Technology Bombay, Mumbai, India
-    roles:
-    - Formal analysis
-    - Investigation
-    - Writing - original draft
-    - Writing - review & editing
-  - name: Tanaka, S.
-    affiliations:
-    - College of Urban and Environmental Sciences, Peking University, Beijing, China
-    roles:
-    - Formal analysis
-    - Writing - original draft
-    - Writing - review & editing
-  - name: Vera Gutierrez, C.
-    affiliations:
-    - Institute of Geology, Mining, and Metallurgy, Universidad Nacional Mayor de San Marcos, Lima, Peru
-    roles:
-    - Formal analysis
-    - Writing - original draft
-    - Writing - review & editing
-  - name: Ndlovu, T.
-    affiliations:
-    - Marine Research and Development, Oceanic Dynamics Ltd., Cape Town, South Africa
-    roles:
-    - Formal analysis
-    - Writing - review & editing
-
+  - name: 
+    affiliations: []
+    roles: []
+  - name: 
+    affiliations: []
+    roles: []
+  - name: 
+    affiliations: []
+    roles: []
+  - name: 
+    affiliations: []
+    roles: []
+  - name: 
+    affiliations: []
+    roles: []
+    
   toc:
   - file: index.md
 
-  id: isp-micropublication-template
-  title: This is the title of our awesome micropublication
+  id: Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
+  title: Parallels between RBDSQ Progression and Brain Morphology in Longitudinal Subtyping of PPMI Cohort
   keywords:
   - keyword1
   - keyword2
   - keyword3
   - keyword4
-  github: https://github.com/impact-scholars/isp-micropublication-template
+  github: https://github.com/impact-scholars/Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   bibliography:
   - bib.bib
   # downloads:
