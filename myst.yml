@@ -26,6 +26,7 @@ project:
     
   toc:
   - file: index.md
+  - file: supplementary.md
 
   id: Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   title: Parallels between RBDSQ Progression and Brain Morphology in Longitudinal Subtyping of PPMI Cohort
