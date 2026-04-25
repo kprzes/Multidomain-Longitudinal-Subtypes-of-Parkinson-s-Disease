@@ -7,20 +7,20 @@ project:
   # Uncomment and fill when published
   # doi: 10.5281/zenodo.XXXXXXX
   # date: YYYY-MM-DD
-  authors:
-  - name: 
+  authors: 
+  - name: Shiman Wen
     affiliations: []
     roles: []
-  - name: 
+  - name: Krzysztof Przestrzelski
     affiliations: []
     roles: []
-  - name: 
+  - name: Pragata Ghosh
     affiliations: []
     roles: []
-  - name: 
+  - name: Ishita Jain
     affiliations: []
     roles: []
-  - name: 
+  - name: Fernando Chaure
     affiliations: []
     roles: []
     
