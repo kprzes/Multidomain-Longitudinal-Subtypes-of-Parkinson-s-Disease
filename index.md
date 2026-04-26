@@ -46,6 +46,10 @@ To identify the underlying trajectory of multivariate, multlcmm function in the 
 
 The dataset contains PATNO, their respective class assignment (lcmm) , age, sex, race, baseline clinical scales, DaTScan features, Genetics and biomarkers and MRI features. The dataset was split into (70:15:15) train, validation, test set. Hyperparameters were optimised using Random search and 3 fold cross validation. We also used sample weights and balanced accuracy to tackle the problem of imbalanced classes. Model performance was evaluated using AUC.
 
+The model achieved an impressive AUC of 0.88 and a CV balanced accuracy of 0.73 on test set with a maximum tree depth of 4 and learning rate of 0.06. SHAP analysis revealed REM (RBDSQ) as the most important predictor of classes followed by CSF ɑ-synuclein levels at baseline.
+These findings suggest good predictive performance of baseline data, indicating potential utility while reinforcing our findings from latent class model.
+
+
 
 # Results
 
