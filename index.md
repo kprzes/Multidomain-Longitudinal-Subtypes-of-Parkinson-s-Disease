@@ -17,24 +17,33 @@ This project advances the field by integrating several layers of information tha
 
 # Methodology
 
-## Inclusion criteria
+## Participants
 
 Data acquired from Parkinson’s Progression Markers Initiative (PPMI) dataset (https://www.ppmi-info.org/), on 21 March 2026. PPMI is a multi-center, longitudinal, and observational study that was launched in 2010. Each PPMI site was approved by the appropriate institutional review board before study initiation, and they all fully adhere to the principles set forth in the Declaration of Helsinki. All subjects provided written informed consent prior participation.
 
-Drug naïve, with a levodopa equivalent daily dose (LEDD) of 0, disease duration within 2 years, early course with Hoehn-Yahr stage (H-Y stage) < 3 and excluded participants with dementia at baseline; Patients below age 50 were also excluded to avoid cases of early onset PD; Maximum follow-up periods were set as 5 years; Two or more follow-ups were included, resulting in a total of 855 PD participants.
+Participants were selected based on following criteria: drug naïve, with a levodopa equivalent daily dose (LEDD) of 0, disease duration within 2 years, early course with Hoehn-Yahr stage (H-Y stage) < 3 and without dementia at baseline. Patients below age 50 were also excluded to avoid cases of early onset PD. Maximum follow-up periods were set as 5 years, two or more follow-ups were included, resulting in a total of 855 Parkinson’s Disease participants.
 
 
 ## Statistical analysis
 
-Statistical analyses were performed in R (4.5.3) and Python (3.12.13).
+Statistical analyses were performed in R (4.5.3) and Python (3.12.13). Continuous variables were expressed as mean ± standard deviation (SD), categorical variables were presented as number and percentage. Differences among groups were assessed by the Kruskal-Wallis test (continuous variables) and the chi-square test (categorical variables), pairwise comparisons were presented with Mann–Whitney U (continuous variables) and chi-square test (categorical variables), and was corrected by with Benjamini–Hochberg FDR.
 
-Continuous variables were expressed as mean ± standard deviation (SD), categorical variables were presented as number and percentage. Differences among groups were assessed by the Kruskal-Wallis test for continuous variables and the chi-square test for categorical variables
+To identify the underlying trajectory of multivariate, multlcmm function in the R package lcmm [@proustlima2017lcmm] was applied. The following steps were performed to optimize the analysis:
 
-To identify the underlying trajectory of multivariate, multlcmm function in the R package lcmm [@proust-limaEstimationExtendedMixed2017] was applied. Since MoCA suffers from ceiling effect and curvilinearity, we pre-transformed it with square root to make it approximately normally distributed [@wangPredictiveModelLongitudinal2025], other scales are REM Sleep Behavior Disorder Screening Questionnaire (RBDSQ) total score, MDS-UPDRS Part III Score OFF (includes OFF and untreated scores), ΔSBP (supine SBP minus standing SBP) [@chenTrajectoryAnalysisOrthostatic2021]. We applied Z-score as sensitivity check, results are the same. (supplementary table)
+(1) Literature-based scale selection: we first selected REM Sleep Behavior Disorder Screening Questionnaire (RBDSQ), Scales for Outcomes in Parkinson’s Disease–Autonomic (SCOPA-AUT), State-Trait Anxiety Inventory (STAI), Symbol Digit Modalities Test (SDMT, T-score adjusted for age and education), as 4 non-motor domain representatives based on prior cross-sectional subtyping study [@velucci2025nonmotor], also with MDS-UPDRS Part III Score OFF for motor domain [@he2023motor], however, they did not yield optimal results in multivariate model together with z-standardized with linear link or raw score with nonlinear link function.
 
-Although nonlinear link function can better accommodate ceiling/floor effects and curvilinearity [@proust-limaMisuseLinearMixed2011], in our data, linear link shows better classification quality with OCC>5 in each class. (supplementary table)
+(2) Candidate scale screening: to make sure we construct multivariate model from scales with longitudinal signals, we evaluated candidate scales in univariate model under different link function, and prioritized scales that had been studied in univariate latent class mixed model. The final set is RBDSQ total score, Montreal Cognitive Assessment (MoCA) Score (adjusted for education) [@pourzinal2024profiling], MDS-UPDRS Part III Score OFF, ΔSBP (supine SBP minus standing SBP) [@chen2021orthostatic].
 
-The fixed and mixture both included intercept and slope, random effect is specified on slope. Models with 1 to 4 classes were fitted, the final model was selected according to lowest Bayesian Information Criterion (BIC), mean posterior probabilities> 70%, class size>5%, relative entropy>0.7.
+(3) Scale contribution assessment: we analyzed residual standard error, Variance Explained proportion, and compared the multidomain class assignments with univariate class assignment using Adjusted Rand Index (ARI), and Cramer’s V. 
+
+(4) Link function assessment: although nonlinear link function can better accommodate ceiling/floor effects and curvilinearity [@proustlima2011misuse], in our data, linear link shows better classification quality with relative entropy>0.7, and Odds of Correct Classification (OCC) >5 in each class. Since MoCA suffers from ceiling effect and curvilinearity, we pre-transformed it with square root to make it approximately normally distributed (Wang, 2025), other scales were raw scores. We z-standardized scales as sensitivity check, results are the same. [Table S1](supplementary.md#supp-model-selection) [Table S2](supplementary.md#supp-class-comparison)
+
+(5) Random effects assessment: random effects with both intercept and slope or only slope were both analyzed. Under linear link, both settings identified 3-class with lowest Bayesian Information Criterion (BIC), however, random effects with both intercept and slope did not converge.
+
+(6) Model selection: the fixed and mixture both included intercept and slope, random effect is specified on slope. Models with 1 to 4 classes were fitted, the final model was selected according to lowest Bayesian Information Criterion (BIC), average posterior probabilities> 70%, class size>5%, relative entropy>0.7. [@lennon2018framework]
+
+(7) Missingness and attrition: the missing rates for RBD, MoCA, delta SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. [Figure S1](supplementary.md#missing-pattern) LCMM can accommodate incomplete longitudinal data, so no additional missing-data handling was performed. Little’s MCAR test was significant (p < 0.05), indicating that the data were not missing completely at random. Since participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three class had dropped by year 5, Class1 showed the highest attrition. [Table S3](supplementary.md#supp-attrition-table)
+
 
 ## MRI Processing
 
@@ -48,7 +57,7 @@ The three-step  approach was later extended to latent class models with continuo
 
 The biomarkers investigated in the LMM and logistic regression were selected based on their importance to PD pathology found in literature. Selected Freesurfer outputs from PPMI were used for the logistic regression, normalized by the estimated Total Intracranial Volume (eTIV) to correct for head size [@voevodskayaEffectsIntracranialVolume2014]. Quality outliers in the data were investigated by applying the Gap Statistic algorithm [@tibshiraniEstimatingNumberClusters2001] in the Python package of @loehrGapStatistics2025 on several MRIQC metrics: coefficient of joint variation (CJV), contrast-to-noise ratio (CNR) and entropy focus criterion. Fastsurfer outputs were used for LMM, normalized by MaskVol instead since eTIV is not calculated by Fastsurfer.
 
-The relation of UPSIT to class membership was an important sanity check due to hyposmia often defining the heterogeneity in PD subtypes [@velucciNonmotorSymptomSubtypes2025], and the inability to include it as a class indicator (due to PPMI only have baseline UPSIT scores) could potentially lead to spurious subtypes being found by multilcmm.
+The relation of UPSIT to class membership was an important sanity check due to hyposmia often defining the heterogeneity in PD subtypes [@velucci2025nonmotor], and the inability to include it as a class indicator (due to PPMI only have baseline UPSIT scores) could potentially lead to spurious subtypes being found by multilcmm.
 
 ## XGBoost
 
@@ -58,12 +67,13 @@ The dataset contains PATNO, their respective class assignment (lcmm) , age, sex,
 
 # Results
 
-3-class model was selected for subsequent analyses: class1 n=173(20.23%) severe/stable high burden group, class2 n=568(66.43%) stable/low burden group, class3 n=114(13.33%) late pRBD/increasing burden group.
+3-class model was selected for subsequent analyses: class1 n=173(20.23%) severe /stable high burden group, class2 n=568(66.43%) stable/low burden group, class3 n=114(13.33%) late pRBD/increasing burden group. [Table 1](#main-model-selection) [Figure S2](supplementary.md#supp-trajectory)
 
-All three classes had OCC values greater than 5. The residual standard errors were 1.25 for RBD, 14.15 for MoCA, 22.11 for UPDRS3, and 11.58 for delta SBP. The proportions of variance explained were 39.14%, 0.50%, 0.20%, 0.74%, respectively. We also compared the 3-class solution from the multivariate model with the 3-class RBD-only LCMM solution. The high agreement between the two classifications (ARI = 0.96; Cramer’s V = 0.95) indicated that the class structure was largely driven by the RBD trajectory.
+All three classes had OCC values greater than 5. The residual standard errors were 1.25 for RBD, 14.15 for MoCA, 22.11 for UPDRS3, and 11.58 for ΔSBP. The proportions of variance explained were 39.14%, 0.50%, 0.20%, 0.74%, respectively. We compared the 3-class solution from the multivariate model with the 3-class RBD-only LCMM solution. The high agreement between the two classifications (ARI = 0.96; Cramer’s V = 0.95) indicated that the class structure was largely driven by the RBD trajectory. [Table S4](supplementary.md#supp-rbd-model-selection) [Table S5](supplementary.md#supp-rbd-class-comparison) [Figure S3](supplementary.md#supp-rbd-trajectory)
 
-Their baseline characteristics are summarized. (supplementary table) Baseline differences across classes were mainly observed in RBD and autonomic rather than in age, disease duration, education, cognition, or motor severity. Class 1 represented a high RBD and autonomic burden with broader non-motor impairment and lower DAT binding. Class 2 showed the mildest overall profile, with the lowest RBD and autonomic burden and relatively preserved DAT. Class 3 showed intermediate clinical severity at baseline, but relatively prominent autonomic and olfactory dysfunction, importantly, its DAT was generally closer to Class 1, indicating substantial dopaminergic deficit despite less extensive non-motor burden than Class 1.
+Baseline differences across classes were mainly observed in RBD and autonomic rather than in age, disease duration, education, cognition, or motor severity. Class 1 represented a high RBD and autonomic burden with broader non-motor impairment and lower DAT binding. Class 2 showed the mildest overall profile, with the lowest RBD, autonomic burden, and relatively preserved DAT. Class 3 showed intermediate severity at baseline, but relatively prominent autonomic and olfactory dysfunction, importantly, its DAT was generally closer to Class 1, indicating substantial dopaminergic deficit despite less extensive non-motor burden than Class 1. [Table S6](supplementary.md#supp-baseline-characteristics)
 
+<br/><br/>
 
 ```{figure} figure.png
 :name: figure-main
@@ -76,6 +86,23 @@ Their baseline characteristics are summarized. (supplementary table) Baseline di
 \
 **C.** Here we describe panel C.
 ```
+
+<br/><br/>
+
+```{csv-table} Multivariate LCMM model selection and classification metrics
+:header-rows: 1
+:name: main-model-selection
+:align: center
+:widths: 8, 16, 16, 12, 12, 22, 22, 12
+
+"K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
+"1","-35284.04","1.0000000","70594.07","70655.84","100.00000","-","-"
+"2","-35180.50","0.7946713","70392.99","70469.01","28.77193<br>71.22807","0.8942<br>0.9606","-"
+"3","**-35110.15**","**0.7527719**","**70258.30**","**70348.57**","**20.23392**<br>**66.43275**<br>**13.33333**","**0.8684**<br>**0.9221**<br>**0.7868**","**26.0**<br>**5.98**<br>**24.0**"
+"4","-35110.15","0.4963126","70264.30","70368.82","15.08772<br>20.46784<br>64.44444<br>0","0.7431<br>0.8622<br>0.5680<br>NaN","-"
+```
+
+<br/><br/>
 
 ```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2)[^1]
 :header-rows: 1
@@ -107,6 +134,8 @@ Their baseline characteristics are summarized. (supplementary table) Baseline di
 "Striatal SBR Putamen","240","0.16","0.222","0.10","0.092"
 "APOE $\epsilon$4 (Carrier=1)","240","0.91","0.875","0.74","0.575"
 ```
+
+<br/><br/>
 
 ```{csv-table} Comparison of MRI Volume Trajectory Slopes (Reference: Class 2)[^3]
 :header-rows: 1
