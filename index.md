@@ -23,7 +23,7 @@ Statistical analyses were performed in R (4.5.3) and Python (3.12.13). Inclusion
 
 (3) Scale contribution assessment: we analyzed residual standard error, Variance Explained proportion, and compared the multidomain class assignments with univariate class assignment using Adjusted Rand Index (ARI), and Cramer’s V. 
 
-(4) Link function assessment: although nonlinear link function can better accommodate ceiling/floor effects and curvilinearity [@proustlima2011misuse], in our data, linear link showed better classification quality with relative entropy>0.7, and Odds of Correct Classification (OCC) >5 in each class. Since MoCA suffers from ceiling effect and curvilinearity, we pre-transformed it with square root to make it approximately normally distributed (Wang, 2025), other scales were raw scores. We z-standardized scales as sensitivity check, results are the same. [Table S1](#supp-model-selection) [Table S2](#supp-class-comparison)
+(4) Link function assessment: although nonlinear link function can better accommodate ceiling/floor effects and curvilinearity [@proustlima2011misuse], in our data, linear link showed better classification quality with relative entropy>0.7, and Odds of Correct Classification (OCC) >5 in each class. Since MoCA suffers from ceiling effect and curvilinearity, we pre-transformed it with square root to make it approximately normally distributed [@wangPredictiveModelLongitudinal2025], other scales were raw scores. We z-standardized scales as sensitivity check, results are the same. [Table S1](#supp-model-selection) [Table S2](#supp-class-comparison)
 
 (5) Random effects assessment: random effects with intercept and slope or only slope were both analyzed. Under linear link, both settings identified 3-class with lowest Bayesian Information Criterion (BIC), however, random effects with both intercept and slope did not converge.
 
@@ -62,7 +62,7 @@ The dataset contains PATNO, their respective class assignment , age, sex, race, 
 **C.** Here we describe panel C.
 ```
 
-3-class model was selected for subsequent analyses: class1 n=173(20.23%) severe /stable high burden group, class2 n=568(66.43%) stable/low burden group, class3 n=114(13.33%) late pRBD/increasing burden group. [Table 1](#main-model-selection) [Figure S2](#supp-trajectory)
+3-class model was selected for subsequent analyses: class1 n=173(20.23%) stable high burden group, class2 n=568(66.43%) low burden group, class3 n=114(13.33%) increasing burden group. [Table 1](#main-model-selection) [Figure S2](#supp-trajectory)
 
 All three classes had OCC values greater than 5. The residual standard errors were 1.25 for RBD, 14.15 for MoCA, 22.11 for UPDRS3, and 11.58 for ΔSBP. The proportions of variance explained were 39.14%, 0.50%, 0.20%, 0.74%, respectively. We compared the 3-class solution from the multivariate model with the 3-class RBD-only LCMM solution. The high agreement between the two classifications (ARI = 0.96; Cramer’s V = 0.95) indicated that the class structure was largely driven by the RBD trajectory. [Table S4](#supp-rbd-model-selection) [Table S5](#supp-rbd-class-comparison) [Figure S3](#supp-rbd-trajectory)
 
@@ -70,25 +70,26 @@ Baseline differences across classes were mainly observed in RBD and autonomic ra
 
 
 
-```{csv-table} Multivariate LCMM model selection and classification metrics[^1]
+```{csv-table} Multivariate LCMM model (z-score) selection and classification metrics
 :header-rows: 1
 :name: main-model-selection
 :align: center
-:widths: 8, 16, 16, 12, 12, 22, 22, 12
 
 "K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
-"1","-35284.04","1.0000000","70594.07","70655.84","100.00000","-","-"
-"2","-35180.50","0.7946713","70392.99","70469.01","28.77193<br>71.22807","0.8942<br>0.9606","-"
-"3","**-35110.15**","**0.7527719**","**70258.30**","**70348.57**","**20.23392**<br>**66.43275**<br>**13.33333**","**0.8684**<br>**0.9221**<br>**0.7868**","**26.0**<br>**5.98**<br>**24.0**"
-"4","-35110.15","0.4963126","70264.30","70368.82","15.08772<br>20.46784<br>64.44444<br>0.00","0.7431<br>0.8622<br>0.5680<br>NaN","-"
+"1","-18471.82","1.0000000","36969.64","37031.40","100.00000","-","-"
+"2","-18368.28","0.7946719","36768.56","36844.58","28.77193<br>71.22807","0.8942<br>0.9606","-"
+"**3**","**-18297.93**","**0.7527719**","**36633.87**","**36724.14**","**20.23392<br>66.43275<br>13.33333**","**0.8684<br>0.9221<br>0.7868**","**26.0<br>5.98<br>24.0**"
+"4","-18387.10","0.2705212","36818.20","36922.73","33.80117<br>0.35088<br>34.15205<br>31.69591","0.7633<br>0.3481<br>0.3461<br>0.3431","-"
 ```
+
+
 
 Data preparation details for logistic regression are described in [Supp.Data](#supp-data-preparation). To validate the clinical relevance of the identified latent classes, we compared baseline UPSIT scores across groups. Olfactory function was significantly lower for the high burden group (p = .005) and the increasing burden group (p = .002), providing a critical external benchmark for the model's validity. Because hyposmia is a robust herald of the "Diffuse Malignant" phenotype [@fereshtehnejadNewClinicalSubtypes2015], this confirms that our data-driven model successfully captured established biological patterns of PD heterogeneity, even though UPSIT scores were not included as indicators during the primary latent class estimation.
 
 Our longitudinal analysis revealed distinct temporal dynamics between the identified phenotypes relative to the stable, low-burden baseline class. Notably, while the high burden class was characterized by more pronounced volumetric differences at baseline, the increasing burden group distinguished itself primarily through differences in the rates of structural change over time. With a broad trend of accelerated ventricular and choroid plexus expansion aligning with the latter. However, given the exploratory nature of testing multiple regions and the statistical power constraints of our longitudinal subsample (n=382), the penalty of False Discovery Rate correction resulted in only the slope of Inferior Lateral Ventricle surviving threshold (q < .10).
 
 
-```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2)[^2][^3]
+```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2)[^1][^2]
 :header-rows: 1
 :name: multinomial-reg-table
 :align: center
@@ -119,7 +120,7 @@ Our longitudinal analysis revealed distinct temporal dynamics between the identi
 "APOE $\epsilon$4 (Carrier=1)","240","0.91","0.875","0.74","0.575"
 ```
 
-```{csv-table} Comparison of MRI Volume Trajectory Slopes (Reference: Class 2)[^4]
+```{csv-table} Comparison of MRI Volume Trajectory Slopes (Reference: Class 2)[^3]
 :header-rows: 1
 :name: lmm-slope-table
 :align: center
@@ -151,10 +152,10 @@ In the increasing burden group (Class 3), the larger baseline pallidum may repre
 By employing a robust two step estimation method via the externVar function to eliminate classification bias, this study provides a validated framework for using baseline clinical and imaging biomarkers to identify high risk patients at their first visit, facilitating more precise therapeutic interventions and clinical trial enrichment.
 
 
-[^1]: The 4-class model produced an empty class, leading to an undefined posterior probability (NaN); it was therefore treated as an unstable solution.
-[^2]: **Bolded** values indicate $p < 0.05$.
-[^3]: Demographic variables (Age, Sex, Education) were included as controls in all models.
-[^4]: Results surviving False Discovery Rate (FDR) correction are indicated in **bold** in addition to unadjusted $p < 0.05$ results.
+
+[^1]: **Bolded** values indicate $p < 0.05$.
+[^2]: Demographic variables (Age, Sex, Education) were included as controls in all models.
+[^3]: Results surviving False Discovery Rate (FDR) correction are indicated in **bold** in addition to unadjusted $p < 0.05$ results.
 
 
 # Supplementary material
@@ -166,18 +167,21 @@ PPMI is an ongoing multicenter longitudinal observational study, launched in 201
 Inclusion criteria: drug naïve, with a levodopa equivalent daily dose (LEDD) of 0, disease duration within 2 years, early course with Hoehn-Yahr stage (H-Y stage) < 3 and without dementia at baseline. Patients below age 50 were also excluded to avoid cases of early onset PD. Maximum follow-up periods were set as 5 years, two or more follow-ups were included, resulting in a total of 855 Parkinson’s Disease participants.
 
 ### Table S1
-Multivariate LCMM model (z-score) selection and classification metrics
+Multivariate LCMM model (raw-score/transformed-MoCA) selection and classification metrics
 ```{csv-table} 
 :header-rows: 1
 :name: supp-model-selection
 :align: center
-
+:widths: 8, 16, 16, 12, 12, 22, 22, 12
 "K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
-"1","-18471.82","1.0000000","36969.64","37031.40","100.00000","-","-"
-"2","-18368.28","0.7946719","36768.56","36844.58","28.77193<br>71.22807","0.8942<br>0.9606","-"
-"3","-18297.93","0.7527719","36633.87","36724.14","20.23392<br>66.43275<br>13.33333","0.8684<br>0.9221<br>0.7868","26.0<br>5.98<br>24.0"
-"4","-18387.10","0.2705212","36818.20","36922.73","33.80117<br>0.35088<br>34.15205<br>31.69591","0.7633<br>0.3481<br>0.3461<br>0.3431","-"
+"1","-35284.04","1.0000000","70594.07","70655.84","100.00000","-","-"
+"2","-35180.50","0.7946713","70392.99","70469.01","28.77193<br>71.22807","0.8942<br>0.9606","-"
+"3","**-35110.15**","**0.7527719**","**70258.30**","**70348.57**","**20.23392**<br>**66.43275**<br>**13.33333**","**0.8684**<br>**0.9221**<br>**0.7868**","**26.0**<br>**5.98**<br>**24.0**"
+"4","-35110.15","0.4963126","70264.30","70368.82","15.08772<br>20.46784<br>64.44444<br>0.00","0.7431<br>0.8622<br>0.5680<br>NaN","-"
 ```
+*Note. The 4-class model yielded an empty class (0.00%) and undefined posterior probability (NaN), indicating a degenerate solution.
+
+
 ### Table S2
 Agreement of multidomain class assignments between the raw-score/transformed-MoCA model (A) and the z-score model (B)
 ```{csv-table} 
@@ -197,7 +201,7 @@ ARI = 1; Cramér's V = 1.
 
 (supp-missingness-attrition)=
 ### Missingness and attrition
-the missing rates for RBD, MoCA, delta SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. Figure S1 LCMM can accommodate incomplete longitudinal data, so no additional missing-data handling was performed. Little’s MCAR test was significant (p < 0.05), indicating that the data were not missing completely at random. Since participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three class had dropped by year 5, Class1 showed the highest attrition. 
+The missing rates for RBD, MoCA, delta SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. Figure S1 LCMM can accommodate incomplete longitudinal data, so no additional missing-data handling was performed. Little’s MCAR test was significant (χ² = 208, df = 28, p < .001), indicating that the data were not missing completely at random. Given that participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three classes had dropped by year 5, Class1 showed the highest attrition. 
 
 ### Figure S1
 Missing data pattern
@@ -224,8 +228,8 @@ Attrition by latent class across follow-up years
 
 (supp-trajectory)=
 ### Figure S2
-Multivariate model - Estimated mean with 95% CI and observed mean
-```{image} ./s1.png
+Multivariate model (z-score) - Estimated mean with 95% CI and observed mean
+```{image} ./S2.png
 :name: supp-trajectory
 :align: center
 :width: 80%
@@ -249,7 +253,7 @@ RBD LCMM model selection and classification metrics
 ```
 
 ### Table S5
-Comparison of class assignments between the raw-score/transformed-MoCA multivariate LCMM model (A) and the RBD-only LCMM model (C)
+Comparison of class assignments between the z-score multivariate LCMM model (A) and the RBD-only LCMM model (C)
 ```{csv-table} 
 :header-rows: 1
 :name: supp-rbd-class-comparison
@@ -267,8 +271,8 @@ ARI = 0.956; Cramér's V = 0.950.
 
 (supp-rbd-trajectory)=
 ### Figure S3
-RBD LCMM - Estimated mean trajectory with 95% CI and raw individual trajectories
-```{image} ./s2.png
+RBDSQ Estimated Mean Trajectories with 95% CIs and Raw Individual Trajectories in the MultLCMM (z-score model)
+```{image} ./S1.png
 :name: supp-rbd-trajectory
 :align: center
 :width: 100%
@@ -277,57 +281,61 @@ RBD LCMM - Estimated mean trajectory with 95% CI and raw individual trajectories
 
 ### Table S6
 Baseline characteristics by latent class
-```{csv-table} 
+
+```{csv-table}
 :header-rows: 1
 :name: supp-baseline-characteristics
 :align: center
-:widths: 26, 14, 14, 14, 12, 12, 12, 12, 12
 
-"Variable","Class 1","Class 2","Class 3","P-value","Class 1 vs 2","Class 1 vs 3","Class 2 vs 3","P-value (FDR)"
-"RBD","8.7 (1.8)","2.8 (1.8)","3.8 (1.9)","<0.0001","<0.0001","<0.0001","<0.0001","<0.0001"
-"MoCA","26.5 (2.6)","26.8 (2.4)","26.6 (2.5)","0.498","0.655","0.655","0.655","0.611"
-"UPDRS Part III","22.7 (10.6)","22.3 (9.6)","22.1 (9.5)","0.940","0.935","0.935","0.935","0.960"
-"ΔSBP","6.6 (13.6)","3.0 (11.8)","6.8 (15.1)","0.003","0.006","0.608","0.067","0.007"
-"Age at PD diagnosis","65.4 (7.1)","65.0 (7.2)","65.5 (6.5)","0.700","0.839","0.839","0.839","0.802"
-"Years of education capped at 20","15.9 (2.9)","16.0 (2.8)","16.0 (2.8)","0.882","0.808","0.808","0.808","0.921"
-"Duration from PD diagnosis to enrollment (years)","0.6 (0.5)","0.7 (0.5)","0.6 (0.5)","0.386","0.545","0.944","0.545","0.511"
-"Men","140 (80.9)","349 (61.4)","85 (74.6)","<0.0001","<0.0001","0.256","0.016","<0.0001"
-"UPSIT raw score","20.3 (7.8)","23.0 (8.1)","19.8 (6.2)","<0.0001","<0.001","0.915","<0.001","<0.0001"
-"SCOPA-AUT total score","14.3 (7.5)","9.4 (5.9)","11.4 (6.4)","<0.0001","<0.001","<0.001","0.001","<0.0001"
-"State-Trait Anxiety Index (STAI) total score","66.7 (18.5)","62.7 (17.6)","62.9 (18.7)","0.022","0.020","0.084","0.856","0.038"
-"Geriatric Depression Scale score","2.8 (2.6)","2.2 (2.6)","2.2 (2.2)","<0.001","<0.001","0.047","0.446","0.003"
-"Epworth Sleepiness Scale score","6.4 (3.8)","5.4 (3.4)","5.5 (3.3)","0.003","0.002","0.081","0.573","0.008"
-"Questionnaire for Impulsive-Compulsive Disorders in PD (QUIP) score","0.4 (0.8)","0.2 (0.5)","0.3 (0.7)","0.036","0.033","0.374","0.374","0.059"
-"DVT_CLKDRAW","64.4 (15.1)","64.7 (13.9)","66.3 (9.8)","0.981","0.954","0.954","0.954","0.981"
-"DVT_TOTAL_RECALL","45.0 (10.8)","46.3 (11.2)","45.0 (10.7)","0.437","0.596","0.903","0.596","0.555"
-"DVT_DELAYED_RECALL","44.1 (11.3)","44.6 (12.3)","44.4 (12.3)","0.808","0.830","0.830","0.830","0.883"
-"DVT_RETENTION","45.1 (12.0)","45.8 (12.2)","45.5 (12.2)","0.507","0.642","0.642","0.995","0.611"
-"DVT_FAS","50.3 (10.9)","49.8 (10.9)","49.4 (11.4)","0.857","0.836","0.836","0.836","0.916"
-"DVS_JLO_MSSAE","11.7 (2.8)","11.9 (2.9)","12.2 (3.0)","0.318","0.577","0.321","0.344","0.440"
-"DVT_SDM","45.2 (9.9)","46.7 (9.7)","45.1 (8.5)","0.392","0.596","0.647","0.596","0.511"
-"DVS_LNS","11.5 (2.7)","11.7 (2.9)","11.2 (2.9)","0.176","0.442","0.457","0.262","0.251"
-"MSEADLG","92.8 (6.6)","94.2 (6.1)","93.0 (5.3)","0.003","0.018","0.755","0.016","0.007"
-"PIGD","0.3 (0.3)","0.2 (0.2)","0.2 (0.2)","0.003","0.034","0.002","0.034","0.007"
-"UPDRS1 score","8.3 (5.1)","5.7 (4.0)","6.3 (4.0)","<0.0001","<0.0001","<0.0001","0.090","<0.0001"
-"UPDRS2 score","8.0 (5.1)","5.8 (4.2)","6.2 (3.7)","<0.0001","<0.0001","0.006","0.169","<0.0001"
-"UPDRS total score","39.2 (15.9)","33.8 (13.9)","34.5 (13.2)","<0.001","<0.001","0.047","0.343","0.002"
-"MIA_CAUDATE_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.002","0.006","0.694","0.029","0.005"
-"MIA_CAUDATE_R","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.015","0.014","0.279","0.289","0.027"
-"MIA_CAUDATE_BILAT","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.002","0.004","0.413","0.082","0.007"
-"MIA_PUTAMEN_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.013","0.109","0.314","0.026","0.025"
-"MIA_PUTAMEN_R","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.056","0.127","0.857","0.149","0.085"
-"MIA_PUTAMEN_BILAT","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.005","0.039","0.463","0.017","0.010"
-"MIA_STRIATUM_L","0.7 (0.2)","0.8 (0.3)","0.7 (0.2)","0.001","0.009","0.550","0.009","0.004"
-"MIA_STRIATUM_R","0.8 (0.3)","0.8 (0.3)","0.8 (0.2)","0.007","0.012","0.523","0.100","0.014"
-"MIA_STRIATUM_BILAT","0.7 (0.2)","0.8 (0.2)","0.8 (0.2)","<0.001","0.005","0.891","0.007","0.002"
-"DOMSIDE = 1.0","73 (43.2)","246 (43.5)","40 (35.1)","0.110","0.532","0.115","0.115","0.161"
-"DOMSIDE = 2.0","95 (56.2)","309 (54.7)","69 (60.5)","","","","",""
-"DOMSIDE = 3.0","1 (0.6)","10 (1.8)","5 (4.4)","","","","",""
-"NHY = 1.0","58 (33.5)","203 (35.8)","36 (31.6)","0.639","0.829","0.829","0.829","0.751"
-"NHY = 2.0","115 (66.5)","364 (64.2)","78 (68.4)","","","","",""
-"cogstate = 1.0","117 (88.6)","382 (89.7)","59 (92.2)","0.744","0.860","0.860","0.860","0.833"
-"cogstate = 2.0","15 (11.4)","44 (10.3)","5 (7.8)","","","","",""
+"variable","class_1","class 2","class 3","1_vs_2","1_vs_3","2_vs_3","p_overall_fdr"
+"RBDSQ","8.7 (1.8)","2.8 (1.8)","3.8 (1.9)","<0.0001","<0.0001","<0.0001","<0.0001"
+"MoCA","26.5 (2.6)","26.8 (2.4)","26.6 (2.5)","0.655","0.655","0.655","0.638"
+"UPDRS3","22.7 (10.6)","22.3 (9.6)","22.1 (9.5)","0.935","0.935","0.935","0.964"
+"ΔSBP","6.6 (13.6)","3.0 (11.8)","6.8 (15.1)","0.006","0.608","0.067","0.008"
+"agediag","65.4 (7.1)","65.0 (7.2)","65.5 (6.5)","0.839","0.839","0.839","0.827"
+"educyrs","15.9 (2.9)","16.0 (2.8)","16.0 (2.8)","0.808","0.808","0.808","0.929"
+"durayrs","0.6 (0.5)","0.7 (0.5)","0.6 (0.5)","0.545","0.944","0.545","0.545"
+"upsit","20.3 (7.8)","23.0 (8.1)","19.8 (6.2)","<0.001","0.915","<0.001","<0.0001"
+"scopa","14.3 (7.5)","9.4 (5.9)","11.4 (6.4)","<0.0001","<0.001","0.001","<0.0001"
+"stai","66.7 (18.5)","62.7 (17.6)","62.9 (18.7)","0.020","0.084","0.856","0.040"
+"gds","2.8 (2.6)","2.2 (2.6)","2.2 (2.2)","<0.001","0.047","0.446","0.004"
+"ess","6.4 (3.8)","5.4 (3.4)","5.5 (3.3)","0.002","0.081","0.573","0.008"
+"quip","0.4 (0.8)","0.2 (0.5)","0.3 (0.7)","0.033","0.374","0.374","0.064"
+"clckdraw","64.4 (15.1)","64.7 (13.9)","66.3 (9.8)","0.954","0.954","0.954","0.981"
+"totrecall","45.0 (10.8)","46.3 (11.2)","45.0 (10.7)","0.596","0.903","0.596","0.587"
+"delayrecall","44.1 (11.3)","44.6 (12.3)","44.4 (12.3)","0.830","0.830","0.830","0.900"
+"retention","45.1 (12.0)","45.8 (12.2)","45.5 (12.2)","0.642","0.642","0.995","0.638"
+"FAS","50.3 (10.9)","49.8 (10.9)","49.4 (11.4)","0.836","0.836","0.836","0.929"
+"JLO","11.7 (2.8)","11.9 (2.9)","12.2 (3.0)","0.577","0.321","0.344","0.478"
+"SDM","45.2 (9.9)","46.7 (9.7)","45.1 (8.5)","0.596","0.647","0.596","0.545"
+"LNS","11.5 (2.7)","11.7 (2.9)","11.2 (2.9)","0.442","0.457","0.262","0.275"
+"ADL","92.8 (6.6)","94.2 (6.1)","93.0 (5.3)","0.018","0.755","0.016","0.008"
+"pigd","0.3 (0.3)","0.2 (0.2)","0.2 (0.2)","0.034","0.002","0.034","0.008"
+"updrs1","8.3 (5.1)","5.7 (4.0)","6.3 (4.0)","<0.0001","<0.001","0.090","<0.0001"
+"updrs2","8.0 (5.1)","5.8 (4.2)","6.2 (3.7)","<0.0001","0.006","0.169","<0.0001"
+"totupdrs","39.2 (15.9)","33.8 (13.9)","34.5 (13.2)","<0.001","0.047","0.343","0.003"
+"C_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.006","0.694","0.029","0.006"
+"C_R","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.014","0.279","0.289","0.029"
+"C_BILAT","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.004","0.413","0.082","0.007"
+"P_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.109","0.314","0.026","0.028"
+"P_R","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.127","0.857","0.149","0.095"
+"P_BILAT","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.039","0.463","0.017","0.011"
+"S_L","0.7 (0.2)","0.8 (0.3)","0.7 (0.2)","0.009","0.550","0.009","0.005"
+"S_R","0.8 (0.3)","0.8 (0.3)","0.8 (0.2)","0.012","0.523","0.100","0.015"
+"S_BILAT","0.7 (0.2)","0.8 (0.2)","0.8 (0.2)","0.005","0.891","0.007","0.003"
+"Men","140 (80.9)","349 (61.4)","85 (74.6)","<0.0001","0.256","0.016","<0.0001"
+"SIDE=1.0","73 (43.2)","246 (43.5)","40 (35.1)","0.532","0.115","0.115","0.179"
+"SIDE=2.0","95 (56.2)","309 (54.7)","69 (60.5)","","","",""
+"SIDE=3.0","1 (0.6)","10 (1.8)","5 (4.4)","","","",""
+"NHY=1.0","58 (33.5)","203 (35.8)","36 (31.6)","0.829","0.829","0.829","0.779"
+"NHY=2.0","115 (66.5)","364 (64.2)","78 (68.4)","","","",""
+"cog=1.0","117 (88.6)","382 (89.7)","59 (92.2)","0.860","0.860","0.860","0.854"
+"cog=2.0","15 (11.4)","44 (10.3)","5 (7.8)","","","",""
 ```
+
+Continuous variables were expressed as mean ± standard deviation (SD), categorical variables were presented as number and percentage. Differences among groups were assessed by the Kruskal-Wallis test (continuous variables) and the chi-square test (categorical variables), pairwise comparisons were presented with Mann–Whitney U (continuous variables) and chi-square test (categorical variables), and was corrected by with Benjamini–Hochberg FDR.
+
+Note. agediag = age at Parkinson’s disease diagnosis; educyrs = years of education capped at 20 years; durayrs = duration from PD diagnosis to enrollment in years; upsit = University of Pennsylvania Smell Identification Test; scopa = Scales for Outcomes in Parkinson’s Disease–Autonomic Dysfunction; stai = State-Trait Anxiety Inventory; gds = Geriatric Depression Scale; ess = Epworth Sleepiness Scale; quip = Questionnaire for Impulsive-Compulsive Disorders in Parkinson’s Disease; clckdraw = Clock Drawing Test t-score; totrecall = HVLT immediate/total recall t-score; delayrecall = HVLT delayed recall t-score; retention = HVLT retention t-score; FAS = lexical fluency FAS t-score; JLO = Benton Judgment of Line Orientation MOANS scaled score; SDM = Symbol Digit Modalities Test t-score; LNS = Letter Number Sequencing scaled score; ADL = Modified Schwab & England Activities of Daily Living score; pigd = Postural Instability and Gait Difficulty; updrs1 = Movement Disorder Society Unified Parkinson’s Disease Rating Scale Part I score; updrs2 = MDS-UPDRS Part II score; totupdrs = total OFF score, including OFF and untreated scores; C_L = left caudate; C_R = right caudate; C_BILAT = bilateral caudate; P_L = left putamen; P_R = right putamen; P_BILAT = bilateral putamen; S_L = left striatum; S_R = right striatum; S_BILAT= bilateral striatum; SIDE = side most affected at PD symptom onset, coded as 1 = left, 2 = right, and 3 = symmetric; NHY = Hoehn and Yahr stage, including OFF and untreated scores; cog = investigator diagnosis of cognitive state, coded as 1 = normal cognition, 2 = mild cognitive impairment, and 3 = dementia.
 
 ## Secondary analysis
 (supp-mri-processing)=
@@ -342,4 +350,21 @@ Multicollinearity was assessed using Variance Inflation Factors (VIF) via the ca
 
 Logistic regression was performed using the raw scales for all predictors to ensure model integrity. However, for the reported results, ORs for MRI metrics were calculated by standardizing the coefficients per standard deviation. This transformation was necessary because the raw numerical scales of normalized brain volumes (often <0.1% of eTIV) produce ORs that are either extreme or indistinguishable from 1.0, hindering cross-domain comparison. Clinical and biofluid markers remain on their raw scales for direct clinical interpretation.
 
+## XGBoost
+### Figure S4
+SHAP beeswarm plot for Class 1
+```{image} ./s4.png
+:name: supp-shap
+:align: center
+:width: 80%
 
+```
+
+### Figure S5
+ROC curves for one-vs-rest on the test set
+```{image} ./s5.png
+:name: supp-shap
+:align: center
+:width: 80%
+
+```
