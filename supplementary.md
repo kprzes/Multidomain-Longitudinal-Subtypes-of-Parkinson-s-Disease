@@ -149,3 +149,31 @@ RBD LCMM - Estimated mean trajectory with 95% CI and raw individual trajectories
 "cogstate = 1.0","117 (88.6)","382 (89.7)","59 (92.2)","0.744","0.860","0.860","0.860","0.833"
 "cogstate = 2.0","15 (11.4)","44 (10.3)","5 (7.8)","","","","",""
 ```
+
+
+```{figure} ./s4.png
+:name: lmm-predicty
+:align: center
+:width: 100%
+
+LMM Predicted Trajectories, for regions where nominal differences were found between Class 2 and Class 3
+```
+
+
+```{figure} ./s5.png
+:name: beeswarm-plot
+:align: center
+:width: 100%
+
+SHAP beeswarm plot
+REM (RBDSQ) is the most important baseline predictor of classes
+```
+
+```{figure} ./s6.png
+:name: roc-curve
+:align: center
+:width: 100%
+
+AUC ROC curve for XGBoost model (test set).
+Total AUC = 0.88
+```
