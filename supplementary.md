@@ -14,6 +14,8 @@
 "4","-18387.10","0.2705212","36818.20","36922.73","33.80117<br>0.35088<br>34.15205<br>31.69591","0.7633<br>0.3481<br>0.3461<br>0.3431","-"
 ```
 
+
+## Supplementary Table 1
 ```{csv-table} Agreement of multidomain class assignments between the raw-score/transformed-MoCA model (A) and the z-score model (B)
 :header-rows: 1
 :name: supp-class-comparison

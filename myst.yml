@@ -26,15 +26,15 @@ project:
     
   toc:
   - file: index.md
-  - file: supplementary.md
+  #- file: supplementary.md
 
   id: Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   title: Parallels between RBDSQ Progression and Brain Morphology in Longitudinal Subtyping of PPMI Cohort
   keywords:
-  - keyword1
-  - keyword2
-  - keyword3
-  - keyword4
+  - Parkinson’s Disease
+  - Latent Class Mixed Model
+  - Disease Heterogeneity
+  - Longitudinal Phenotyping
   github: https://github.com/impact-scholars/Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   bibliography:
   - bib.bib
