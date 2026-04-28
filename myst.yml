@@ -8,20 +8,27 @@ project:
   # doi: 10.5281/zenodo.XXXXXXX
   # date: YYYY-MM-DD
   authors: 
-  - name: Shiman Wen
+  - name: Shiman Wen†
+    equal-contributor: true
+    note: "†"
     affiliations: []
     roles: []
-  - name: Krzysztof Przestrzelski
-    affiliations: []
+  - name: Krzysztof Przestrzelski†
+    orchid: 0009-0005-9950-3306
+    equal-contributor: true
+    note: "†"
+    affiliations: Independent Researcher, Cork, Ireland
     roles: []
   - name: Pragata Ghosh
     affiliations: []
     roles: []
   - name: Ishita Jain
-    affiliations: []
+    orchid: 0009-0007-2054-1882
+    affiliations: All India Institute of Medical Sciences, Bhopal, India
     roles: []
   - name: Fernando Chaure
-    affiliations: []
+    orchid: 0000-0002-8072-3879
+    affiliations: Universidad de San Andrés, Buenos Aires, Argentina
     roles: []
     
   toc:
@@ -38,6 +45,9 @@ project:
   github: https://github.com/impact-scholars/Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   bibliography:
   - bib.bib
+  metadata:
+  notes:
+    †: "These authors contributed equally to this work."
   # downloads:
   # - file: supplementary-material.zip
   #   title: Supplementary Material
