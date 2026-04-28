@@ -9,9 +9,10 @@ project:
   # date: YYYY-MM-DD
   authors: 
   - name: Shiman Wen†
+    orchid: 0000-0002-6538-8793
     equal-contributor: true
     note: "†"
-    affiliations: []
+    affiliations: Neuromatch Academy, Neuromatch, Inc.
     roles: []
   - name: Krzysztof Przestrzelski†
     orchid: 0009-0005-9950-3306
@@ -33,7 +34,6 @@ project:
     
   toc:
   - file: index.md
-  - file: supplementary.md
 
   id: Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   title: Parallels between RBDSQ Progression and Brain Morphology in Longitudinal Subtyping of PPMI Cohort

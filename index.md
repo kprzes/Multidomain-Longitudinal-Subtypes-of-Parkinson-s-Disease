@@ -8,7 +8,7 @@ acknowledgments: |
 
 # Introduction
 
-Parkinson’s disease (PD) is one of the fastest-growing neurological disorders globally, presenting a significant challenge to healthcare systems and patient quality of life [@wangEpidemiologyParkinsonsDisease2026; @michaelj.foxfoundationforparkinsonsresearchEconomicBurdenParkinsons2026]. It is generally observed that PD clinical subtypes are predominantly an early-stage phenomenon, often coalescing into a more uniform clinical presentation as the disease advances [@sauerbierNonMotorSubtypes2016]. While seminal baseline multi-modal clustering studies [@fereshtehnejadClinicalCriteriaSubtyping2017; @velucci2025nonmotor] have provided monumental insights into PD heterogeneity at a static time point, they are inherently limited in capturing the disease’s most defining characteristic: its variable rate of progression. A central challenge remains in determining whether these initial clinical snapshots translate into sustained, divergent trajectories over time. Previous research has successfully employed univariate latent class growth models to study individual domains—such as cognition (MoCA) [@pourzinal2024profiling], autonomic function (ΔSBP) [@chen2021orthostatic], and motor progression (MDS-UPDRS Part  III) [@he2023motor]. For sleep domain, previous studies often use the RBD screening questionnaire (RBDSQ), a verified easily applicable self-screening tool [@StiasnyKolster2007RBDSQ] to perform cross-sectional analysis [@Iijima2021RBDOlfactoryPD; @Bjornara2013RBDGenderPD], limited in discovering the heterogeneous evolution pattern in early-stage Parkinson’s disease[@Ye2022RBDProgressionPD]. Evaluating these axes in isolation limits our understanding of PD as a multi-system disorder. To offer multidemential perspective, our research undertakes an exploratory investigation using a multivariate longitudinal latent class model. We also relate these emergent clinical phenotypes to targeted structural biomarkers as highlighted in recent meta-analyses [@filideiParkinsonsDiseaseClinical2025], bridging the gap between data-driven clinical subtypes and their underlying biological correlates is a critical priority for the field.
+Parkinson’s disease (PD) is one of the fastest-growing neurological disorders globally, presenting a significant challenge to healthcare systems and patient quality of life [@wangEpidemiologyParkinsonsDisease2026; @michaelj.foxfoundationforparkinsonsresearchEconomicBurdenParkinsons2026]. It is generally observed that PD clinical subtypes are predominantly an early-stage phenomenon, often coalescing into a more uniform clinical presentation as the disease advances [@sauerbierNonMotorSubtypes2016]. While seminal baseline multi-modal clustering studies [@fereshtehnejadClinicalCriteriaSubtyping2017; @velucci2025nonmotor] have provided monumental insights into PD heterogeneity at a static time point, they are inherently limited in capturing the disease’s most defining characteristic: its variable rate of progression. A central challenge remains in determining whether these initial clinical snapshots translate into sustained, divergent trajectories over time. Previous research has successfully employed univariate latent class growth models to study individual domains—such as cognition (MoCA) [@pourzinal2024profiling], autonomic function (ΔSBP) [@chen2021orthostatic], and motor progression (MDS-UPDRS Part  III) [@he2023motor]. For sleep domain, previous studies often used the RBD screening questionnaire (RBDSQ), a verified easily applicable self-screening tool [@StiasnyKolster2007RBDSQ] to perform cross-sectional analysis [@Iijima2021RBDOlfactoryPD; @Bjornara2013RBDGenderPD], limited in discovering the heterogeneous evolution pattern in early-stage Parkinson’s disease[@Ye2022RBDProgressionPD]. Evaluating these axes in isolation limits our understanding of PD as a multi-system disorder. To offer a multidimential perspective, our research undertakes an exploratory investigation using a multivariate longitudinal latent class model. We also relate these emergent clinical phenotypes to targeted structural biomarkers as highlighted in recent meta-analyses [@filideiParkinsonsDiseaseClinical2025], bridging the gap between data-driven clinical subtypes and their underlying biological correlates is a critical priority for the field.
 
 <br/><br/>
 
@@ -18,13 +18,13 @@ Parkinson’s disease (PD) is one of the fastest-growing neurological disorders 
 
 Statistical analyses were performed in R (4.5.3) and Python (3.12.13) ([Supp.Participants](#supp-participants); [Supp.Missingness and attrition](#supp-missingness-attrition)). We employed a systematic optimization of the multlcmm framework [@proustlima2017lcmm] to identify multidomain trajectories:
 
-1.	**Indicator Selection & Filtration:** Seven candidate class indicators (RBDSQ, SCOPA-AUT, STAI, SDMT, MDS-UPDRS III, MoCA, and $\Delta$SBP) were selected based on @velucci2025nonmotor, @he2023motor, and @chen2021orthostatic. Following univariate screening and multivariate testing, three (SCOPA-AUT, STAI, SDMT) were excluded as they failed to contribute to optimal class separability or provided redundant longitudinal signal.
+1.	**Indicator Selection & Filtration:** Seven candidate class indicators (RBDSQ, SCOPA-AUT, STAI, SDMT, MDS-UPDRS III, MoCA, and $\Delta$SBP) were selected based on @velucci2025nonmotor, @he2023motor, and @chen2021orthostatic. Following univariate screening and multivariate testing, three (SCOPA-AUT, STAI, SDMT) were excluded as they failed to contribute to optimal class separability or provided redundant longitudinal signal. MDS-UPDRS III was retained despite weaker statistical sepearation to preserve representation for motor domain.
 
-2.	**Structural Optimization:** Initial models evaluated both random intercepts and slopes. However, to prevent uninformative severity-driven clusters [@pourzinalSystematicReviewDatadriven2022] and ensure the algorithm identified true multidomain heterogeneity rather than just "mild vs. severe" groupings, we restricted the model to a random-intercept-only structure.
+2.	**Structural Optimization:** Initial models evaluated both random intercept-only and intercept-slope. A random intercept-only structure was retained as it produced a more stable and interpretable multivariate class solution, while the resulting classes were considered in terms of whether they reflected multidomain progression patterns rather than simple baseline severity strata[@pourzinalSystematicReviewDatadriven2022].
 
 3.	**Link Function & Transform:** A parsimonious linear link combined with square-root transformed MoCA to resolve ceiling effects [@wangPredictiveModelLongitudinal2025] was required to achieve sufficient class separability. This specification satisfied @lennon2018framework criteria with OCC > 5 across all classes (concurrently with entropy > 0.7), whereas nonlinear functions (splines/beta) failed to meet these standards.
 
-4.	**Model Selection & Validation:** Iterative versions were evaluated via VarExpl() to quantify indicator contributions. We used confusion matrices, Adjusted Rand Index (ARI), and Cramer’s V to compare multivariate assignments against univariate benchmarks. Notably, the linear link produced identical class assignments for both raw and z-standardized models — a unique stability not observed with alternative links.
+4.	**Model Selection & Validation:** Iterative versions were evaluated via VarExpl() to quantify indicator contributions. We used confusion matrices, Adjusted Rand Index (ARI), and Cramer’s V to compare multivariate assignments against univariate benchmarks. Notably, the linear link produced identical class assignments for both raw and z-standardized models — a unique stability not observed with alternative links. [Table S2](#supp-model-selection) [Table S3](#supp-class-comparison)
 
 The final 3-class model (RBDSQ, MoCA, MDS-UPDRS III, $\Delta$SBP) was selected based on the lowest Bayesian Information Criterion (BIC) and class sizes $> 5\%$. The z-standardized model was utilized for secondary analysis.
 
@@ -53,16 +53,16 @@ We employed XGBoost, a gradient boosting framework optimised for tabular data to
 :alt: Multi-panel figure supporting the main findings
 
 \
-**A–D:** Trajectories of the 4 class indicator variables that defined the multilcmm model - Class 1 is the stable high burden group, Class 2 is stable low burden group and Class 3 is the increasing burden group.
+**A–D:** Observed mean trajectories of the 4 class indicator variables that defined the multilcmm model - Class 1 is the stable high burden group, Class 2 is stable low burden group and Class 3 is the increasing burden group.
 \
 **E:** Boxplots of the Individual annual slopes (Empirical Bayes estimates) demonstrate significantly accelerated atrophy or expansion in Class 3 (orange) compared to the relatively stable Class 2 (green), with a red dashed line indicating the threshold of no change.
 ```
 
 <br/><br/>
 
-3-class model was selected for subsequent analyses: class1 n=173(20.23%) severe/stable high burden group, class2 n=568(66.43%) stable/low burden group, class3 n=114(13.33%) late pRBD/increasing burden group. [Table 1](#main-model-selection) [Figure S2](supplementary.md#supp-trajectory)
+3-class model was selected for subsequent analyses: class1 n=173 (20.23%) stable high burden group, class2 n=568 (66.43%) low burden group, class3 n=114 (13.33%) increasing burden group. [Table 1](#main-model-selection) [Figure S2](#supp-trajectory)
 
-All three classes had OCC values greater than 5. The residual standard errors were 1.25 for RBD, 14.15 for MoCA, 22.11 for UPDRS3, and 11.58 for ΔSBP. The proportions of variance explained were 39.14%, 0.50%, 0.20%, 0.74%, respectively. We compared the 3-class solution from the multivariate model with the 3-class RBD-only LCMM solution. The high agreement between the two classifications (ARI = 0.96; Cramer’s V = 0.95) indicated that the class structure was largely driven by the RBD trajectory. [Table S4](supplementary.md#supp-rbd-model-selection) [Table S5](supplementary.md#supp-rbd-class-comparison) [Figure S3](supplementary.md#supp-rbd-trajectory)
+All three classes had OCC values greater than 5. The residual standard errors were 1.25 for RBDSQ, 14.15 for MoCA, 22.11 for UPDRS III, and 11.58 for ΔSBP. The proportions of variance explained were 39.14%, 0.50%, 0.20%, 0.74%, respectively. We compared the 3-class solution from the multivariate model with the 3-class RBDSQ-only LCMM solution. The high agreement between the two classifications (ARI = 0.96; Cramer’s V = 0.95) indicated that the class structure was largely driven by the RBDSQ trajectory. [Table S4](#supp-rbd-model-selection) [Table S5](#supp-rbd-class-comparison) [Figure S3](#supp-rbd-trajectory)
 
 For the description of baseline characteristics see [Supp.Baseline](#supp-baseline).
 
@@ -76,9 +76,10 @@ For the description of baseline characteristics see [Supp.Baseline](#supp-baseli
 "K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
 "1","-18471.82","1.0000000","36969.64","37031.40","100.00000","-","-"
 "2","-18368.28","0.7946719","36768.56","36844.58","28.77193<br>71.22807","0.8942<br>0.9606","-"
-"3","-18297.93","0.7527719","36633.87","36724.14","20.23392<br>66.43275<br>13.33333","0.8684<br>0.9221<br>0.7868","26.0<br>5.98<br>24.0"
+"**3**","**-18297.93**","**0.7527719**","**36633.87**","**36724.14**","**20.23392<br>66.43275<br>13.33333**","**0.8684<br>0.9221<br>0.7868**","**26.0<br>5.98<br>24.0**"
 "4","-18387.10","0.2705212","36818.20","36922.73","33.80117<br>0.35088<br>34.15205<br>31.69591","0.7633<br>0.3481<br>0.3461<br>0.3431","-"
 ```
+
 
 <br/><br/>
 
@@ -147,7 +148,7 @@ Longitudinal analysis revealed divergent temporal dynamics: while the high-burde
 
 <br/><br/>
 
-The XGBoost model achieved an AUC of 0.88 and a CV balanced accuracy of 0.73 on test set with a maximum tree depth of 4 and learning rate of 0.06. SHAP analysis revealed REM (RBDSQ) as the most important predictor of classes followed by CSF ɑ-synuclein levels at baseline.
+The XGBoost model achieved an AUC of 0.88 and a CV balanced accuracy of 0.73 on test set with a maximum tree depth of 4 and learning rate of 0.06. SHAP analysis revealed REM (RBDSQ) as the most important predictor of classes followed by CSF ɑ-synuclein levels at baseline. [Figure S5](#supp-shap) [Figure S6](#supp-roc)
 
 
 # Discussion
@@ -186,7 +187,7 @@ $^\dagger$ These authors contributed equally to this work.
 
 
 
-# Supplementary Material
+# Supplementary material
 
 ## Trajectory analysis
 (supp-participants)=
@@ -194,30 +195,55 @@ $^\dagger$ These authors contributed equally to this work.
 PPMI is an ongoing multicenter longitudinal observational study, launched in 2010. Before study initiation, each site was approved by the appropriate institutional review, and fully in accordance with the Declaration of Helsinki. All subjects provided written informed consent before participation.
 Inclusion criteria: drug naïve, with a levodopa equivalent daily dose (LEDD) of 0, disease duration within 2 years, early course with Hoehn-Yahr stage (H-Y stage) < 3 and without dementia at baseline. Patients below age 50 were also excluded to avoid cases of early onset PD. Maximum follow-up periods were set as 5 years, two or more follow-ups were included, resulting in a total of 855 Parkinson’s Disease participants.
 
+
 (supp-missingness-attrition)=
 ### Missingness and attrition
-the missing rates for RBD, MoCA, delta SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. Figure S1 LCMM can accommodate incomplete longitudinal data, so no additional missing-data handling was performed. Little’s MCAR test was significant (p < 0.05), indicating that the data were not missing completely at random. Since participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three class had dropped by year 5, Class1 showed the highest attrition. 
+The missing rates for RBD, MoCA, delta SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. LCMM accommodates incomplete longitudinal data, so no additional missingness handling was performed. Little’s MCAR test was significant (χ² = 208, df = 28, p < .001), indicating that the data were not missing completely at random. Given that participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three classes had dropped by year 5, Class1 showed the highest attrition. 
 
-(supp-baseline)=
-### Baseline Characteristics
-Baseline differences across classes were mainly observed in RBD and autonomic rather than in age, disease duration, education, cognition, or motor severity. Class 1 represented a high RBD and autonomic burden with broader non-motor impairment and lower DAT binding. Class 2 showed the mildest overall profile, with the lowest RBD, autonomic burden, and relatively preserved DAT. Class 3 showed intermediate severity at baseline, but relatively prominent autonomic and olfactory dysfunction, importantly, its DAT was generally closer to Class 1, indicating substantial dopaminergic deficit despite less extensive non-motor burden than Class 1. [Table S6](supplementary.md#supp-baseline-characteristics)
+### Figure S1
+Missing data pattern
+```{image} ./s3.png
+:name: missing-pattern
+:align: center
+:width: 60%
 
+```
 
 ### Table S1
-```{csv-table} Multivariate LCMM model selection and classification metrics
+Attrition by latent class across follow-up years
+```{csv-table} 
+:header-rows: 1
+:name: supp-attrition-table
+:align: center
+:widths: 18, 16, 16, 16, 16, 16, 16
+
+"Class","Baseline","Year 1","Year 2","Year 3","Year 4","Year 5"
+"Class 1","173<br>(100.0%)","170<br>(98.3%)","125<br>(72.3%)","80<br>(46.2%)","48<br>(27.7%)","35<br>(20.2%)"
+"Class 2","568<br>(100.0%)","548<br>(96.5%)","447<br>(78.7%)","319<br>(56.2%)","217<br>(38.2%)","162<br>(28.5%)"
+"Class 3","114<br>(100.0%)","110<br>(96.5%)","99<br>(86.8%)","82<br>(71.9%)","65<br>(57.0%)","47<br>(41.2%)"
+```
+
+
+
+### Table S2
+Multivariate LCMM model (raw-score/transformed-MoCA) selection and classification metrics
+```{csv-table} 
 :header-rows: 1
 :name: supp-model-selection
 :align: center
 :widths: 8, 16, 16, 12, 12, 22, 22, 12
-
 "K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
 "1","-35284.04","1.0000000","70594.07","70655.84","100.00000","-","-"
 "2","-35180.50","0.7946713","70392.99","70469.01","28.77193<br>71.22807","0.8942<br>0.9606","-"
 "3","**-35110.15**","**0.7527719**","**70258.30**","**70348.57**","**20.23392**<br>**66.43275**<br>**13.33333**","**0.8684**<br>**0.9221**<br>**0.7868**","**26.0**<br>**5.98**<br>**24.0**"
-"4","-35110.15","0.4963126","70264.30","70368.82","15.08772<br>20.46784<br>64.44444<br>0","0.7431<br>0.8622<br>0.5680<br>NaN","-"
+"4","-35110.15","0.4963126","70264.30","70368.82","15.08772<br>20.46784<br>64.44444<br>0.00","0.7431<br>0.8622<br>0.5680<br>NaN","-"
 ```
+*Note. The 4-class model yielded an empty class (0.00%) and undefined posterior probability (NaN), indicating a degenerate solution.
 
-```{csv-table} Agreement of multidomain class assignments between the raw-score/transformed-MoCA model (A) and the z-score model (B)
+
+### Table S3
+Agreement of multidomain class assignments between the raw-score/transformed-MoCA model (A) and the z-score model (B)
+```{csv-table} 
 :header-rows: 1
 :name: supp-class-comparison
 :align: center
@@ -232,39 +258,23 @@ Baseline differences across classes were mainly observed in RBD and autonomic ra
 ARI = 1; Cramér's V = 1.
 
 
-```{figure} ./s3.png
-:name: missing-pattern
-:align: center
-:width: 60%
 
-Missing data pattern.
-```
-
-
-```{csv-table} Attrition by latent class across follow-up years
-:header-rows: 1
-:name: supp-attrition-table
-:align: center
-:widths: 18, 16, 16, 16, 16, 16, 16
-
-"Class","Baseline","Year 1","Year 2","Year 3","Year 4","Year 5"
-"Class 1","173<br>(100.0%)","170<br>(98.3%)","125<br>(72.3%)","80<br>(46.2%)","48<br>(27.7%)","35<br>(20.2%)"
-"Class 2","568<br>(100.0%)","548<br>(96.5%)","447<br>(78.7%)","319<br>(56.2%)","217<br>(38.2%)","162<br>(28.5%)"
-"Class 3","114<br>(100.0%)","110<br>(96.5%)","99<br>(86.8%)","82<br>(71.9%)","65<br>(57.0%)","47<br>(41.2%)"
-```
-
-
-```{figure} ./s1.png
+(supp-trajectory)=
+### Figure S2
+Multivariate model (z-score) - Estimated mean with 95% CI and observed mean
+```{image} ./S1.png
 :name: supp-trajectory
 :align: center
 :width: 80%
 
-Multivariate model - Estimated mean with 95% CI and observed mean.
 ```
 
 
 
-```{csv-table} RBD LCMM model selection and classification metrics
+### Table S4
+RBDSQ LCMM model selection and classification metrics
+
+```{csv-table} 
 :header-rows: 1
 :name: supp-rbd-model-selection
 :align: center
@@ -276,8 +286,12 @@ Multivariate model - Estimated mean with 95% CI and observed mean.
 "3","**-7326.080**","**0.7573811**","**14672.16**","**14719.67**","**19.29825**<br>**66.43275**<br>**14.26901**","**0.8697**<br>**0.9236**<br>**0.7935**","**27.9**<br>**6.11**<br>**23.1**"
 "4","-7326.080","0.5375571","14678.16","14739.92","15.32164<br>19.41520<br>65.26316<br>0.00000","0.7700<br>0.8665<br>0.6770<br>NaN","-"
 ```
+*Note. The 4-class model yielded an empty class (0.00%) and undefined posterior probability (NaN), indicating a degenerate solution.
 
-```{csv-table} Comparison of class assignments between the raw-score/transformed-MoCA multivariate LCMM model (A) and the RBD-only LCMM model (C)
+
+### Table S5
+Comparison of class assignments between the z-score multivariate LCMM model (A) and the RBD-only LCMM model (C)
+```{csv-table} 
 :header-rows: 1
 :name: supp-rbd-class-comparison
 :align: center
@@ -289,69 +303,81 @@ Multivariate model - Estimated mean with 95% CI and observed mean.
 "C: Class 3","9","2","111","122"
 "Total","173","568","114","855"
 ```
-
 ARI = 0.956; Cramér's V = 0.950.
 
 
-```{figure} ./s2.png
+(supp-rbd-trajectory)=
+### Figure S3
+RBDSQ Estimated Mean Trajectories with 95% CIs and Raw Individual Trajectories in the MultLCMM (z-score model)
+```{image} ./S2.png
 :name: supp-rbd-trajectory
 :align: center
 :width: 100%
 
-RBD LCMM - Estimated mean trajectory with 95% CI and raw individual trajectories.
 ```
 
-```{csv-table} Baseline characteristics by latent class
+(supp-baseline)=
+### Baseline Characteristics
+Baseline differences across classes were mainly observed in RBD and autonomic rather than in age, disease duration, education, cognition, or motor severity. Class 1 represented a high RBD and autonomic burden with broader non-motor impairment and lower DAT binding. Class 2 showed the mildest overall profile, with the lowest RBD, autonomic burden, and relatively preserved DAT. Class 3 showed intermediate severity at baseline, but relatively prominent autonomic and olfactory dysfunction, importantly, its DAT was generally closer to Class 1, indicating substantial dopaminergic deficit despite less extensive non-motor burden than Class 1. 
+
+Continuous variables were expressed as mean ± standard deviation (SD), categorical variables were presented as number and percentage. Differences among groups were assessed by the Kruskal-Wallis test (continuous variables) and the chi-square test (categorical variables), pairwise comparisons were presented with Mann–Whitney U (continuous variables) and chi-square test (categorical variables), and was corrected by with Benjamini–Hochberg FDR.
+
+
+### Table S6
+Baseline characteristics by latent class
+
+```{csv-table}
 :header-rows: 1
 :name: supp-baseline-characteristics
 :align: center
-:widths: 26, 14, 14, 14, 12, 12, 12, 12, 12
 
-"Variable","Class 1","Class 2","Class 3","P-value","Class 1 vs 2","Class 1 vs 3","Class 2 vs 3","P-value (FDR)"
-"RBD","8.7 (1.8)","2.8 (1.8)","3.8 (1.9)","<0.0001","<0.0001","<0.0001","<0.0001","<0.0001"
-"MoCA","26.5 (2.6)","26.8 (2.4)","26.6 (2.5)","0.498","0.655","0.655","0.655","0.611"
-"UPDRS Part III","22.7 (10.6)","22.3 (9.6)","22.1 (9.5)","0.940","0.935","0.935","0.935","0.960"
-"ΔSBP","6.6 (13.6)","3.0 (11.8)","6.8 (15.1)","0.003","0.006","0.608","0.067","0.007"
-"Age at PD diagnosis","65.4 (7.1)","65.0 (7.2)","65.5 (6.5)","0.700","0.839","0.839","0.839","0.802"
-"Years of education capped at 20","15.9 (2.9)","16.0 (2.8)","16.0 (2.8)","0.882","0.808","0.808","0.808","0.921"
-"Duration from PD diagnosis to enrollment (years)","0.6 (0.5)","0.7 (0.5)","0.6 (0.5)","0.386","0.545","0.944","0.545","0.511"
-"Men","140 (80.9)","349 (61.4)","85 (74.6)","<0.0001","<0.0001","0.256","0.016","<0.0001"
-"UPSIT raw score","20.3 (7.8)","23.0 (8.1)","19.8 (6.2)","<0.0001","<0.001","0.915","<0.001","<0.0001"
-"SCOPA-AUT total score","14.3 (7.5)","9.4 (5.9)","11.4 (6.4)","<0.0001","<0.001","<0.001","0.001","<0.0001"
-"State-Trait Anxiety Index (STAI) total score","66.7 (18.5)","62.7 (17.6)","62.9 (18.7)","0.022","0.020","0.084","0.856","0.038"
-"Geriatric Depression Scale score","2.8 (2.6)","2.2 (2.6)","2.2 (2.2)","<0.001","<0.001","0.047","0.446","0.003"
-"Epworth Sleepiness Scale score","6.4 (3.8)","5.4 (3.4)","5.5 (3.3)","0.003","0.002","0.081","0.573","0.008"
-"Questionnaire for Impulsive-Compulsive Disorders in PD (QUIP) score","0.4 (0.8)","0.2 (0.5)","0.3 (0.7)","0.036","0.033","0.374","0.374","0.059"
-"DVT_CLKDRAW","64.4 (15.1)","64.7 (13.9)","66.3 (9.8)","0.981","0.954","0.954","0.954","0.981"
-"DVT_TOTAL_RECALL","45.0 (10.8)","46.3 (11.2)","45.0 (10.7)","0.437","0.596","0.903","0.596","0.555"
-"DVT_DELAYED_RECALL","44.1 (11.3)","44.6 (12.3)","44.4 (12.3)","0.808","0.830","0.830","0.830","0.883"
-"DVT_RETENTION","45.1 (12.0)","45.8 (12.2)","45.5 (12.2)","0.507","0.642","0.642","0.995","0.611"
-"DVT_FAS","50.3 (10.9)","49.8 (10.9)","49.4 (11.4)","0.857","0.836","0.836","0.836","0.916"
-"DVS_JLO_MSSAE","11.7 (2.8)","11.9 (2.9)","12.2 (3.0)","0.318","0.577","0.321","0.344","0.440"
-"DVT_SDM","45.2 (9.9)","46.7 (9.7)","45.1 (8.5)","0.392","0.596","0.647","0.596","0.511"
-"DVS_LNS","11.5 (2.7)","11.7 (2.9)","11.2 (2.9)","0.176","0.442","0.457","0.262","0.251"
-"MSEADLG","92.8 (6.6)","94.2 (6.1)","93.0 (5.3)","0.003","0.018","0.755","0.016","0.007"
-"PIGD","0.3 (0.3)","0.2 (0.2)","0.2 (0.2)","0.003","0.034","0.002","0.034","0.007"
-"UPDRS1 score","8.3 (5.1)","5.7 (4.0)","6.3 (4.0)","<0.0001","<0.0001","<0.0001","0.090","<0.0001"
-"UPDRS2 score","8.0 (5.1)","5.8 (4.2)","6.2 (3.7)","<0.0001","<0.0001","0.006","0.169","<0.0001"
-"UPDRS total score","39.2 (15.9)","33.8 (13.9)","34.5 (13.2)","<0.001","<0.001","0.047","0.343","0.002"
-"MIA_CAUDATE_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.002","0.006","0.694","0.029","0.005"
-"MIA_CAUDATE_R","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.015","0.014","0.279","0.289","0.027"
-"MIA_CAUDATE_BILAT","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.002","0.004","0.413","0.082","0.007"
-"MIA_PUTAMEN_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.013","0.109","0.314","0.026","0.025"
-"MIA_PUTAMEN_R","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.056","0.127","0.857","0.149","0.085"
-"MIA_PUTAMEN_BILAT","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.005","0.039","0.463","0.017","0.010"
-"MIA_STRIATUM_L","0.7 (0.2)","0.8 (0.3)","0.7 (0.2)","0.001","0.009","0.550","0.009","0.004"
-"MIA_STRIATUM_R","0.8 (0.3)","0.8 (0.3)","0.8 (0.2)","0.007","0.012","0.523","0.100","0.014"
-"MIA_STRIATUM_BILAT","0.7 (0.2)","0.8 (0.2)","0.8 (0.2)","<0.001","0.005","0.891","0.007","0.002"
-"DOMSIDE = 1.0","73 (43.2)","246 (43.5)","40 (35.1)","0.110","0.532","0.115","0.115","0.161"
-"DOMSIDE = 2.0","95 (56.2)","309 (54.7)","69 (60.5)","","","","",""
-"DOMSIDE = 3.0","1 (0.6)","10 (1.8)","5 (4.4)","","","","",""
-"NHY = 1.0","58 (33.5)","203 (35.8)","36 (31.6)","0.639","0.829","0.829","0.829","0.751"
-"NHY = 2.0","115 (66.5)","364 (64.2)","78 (68.4)","","","","",""
-"cogstate = 1.0","117 (88.6)","382 (89.7)","59 (92.2)","0.744","0.860","0.860","0.860","0.833"
-"cogstate = 2.0","15 (11.4)","44 (10.3)","5 (7.8)","","","","",""
+"variable","class_1","class 2","class 3","1_vs_2","1_vs_3","2_vs_3","p_overall_fdr"
+"RBDSQ","8.7 (1.8)","2.8 (1.8)","3.8 (1.9)","<0.0001","<0.0001","<0.0001","<0.0001"
+"MoCA","26.5 (2.6)","26.8 (2.4)","26.6 (2.5)","0.655","0.655","0.655","0.638"
+"UPDRS3","22.7 (10.6)","22.3 (9.6)","22.1 (9.5)","0.935","0.935","0.935","0.964"
+"ΔSBP","6.6 (13.6)","3.0 (11.8)","6.8 (15.1)","0.006","0.608","0.067","0.008"
+"agediag","65.4 (7.1)","65.0 (7.2)","65.5 (6.5)","0.839","0.839","0.839","0.827"
+"educyrs","15.9 (2.9)","16.0 (2.8)","16.0 (2.8)","0.808","0.808","0.808","0.929"
+"durayrs","0.6 (0.5)","0.7 (0.5)","0.6 (0.5)","0.545","0.944","0.545","0.545"
+"upsit","20.3 (7.8)","23.0 (8.1)","19.8 (6.2)","<0.001","0.915","<0.001","<0.0001"
+"scopa","14.3 (7.5)","9.4 (5.9)","11.4 (6.4)","<0.0001","<0.001","0.001","<0.0001"
+"stai","66.7 (18.5)","62.7 (17.6)","62.9 (18.7)","0.020","0.084","0.856","0.040"
+"gds","2.8 (2.6)","2.2 (2.6)","2.2 (2.2)","<0.001","0.047","0.446","0.004"
+"ess","6.4 (3.8)","5.4 (3.4)","5.5 (3.3)","0.002","0.081","0.573","0.008"
+"quip","0.4 (0.8)","0.2 (0.5)","0.3 (0.7)","0.033","0.374","0.374","0.064"
+"clckdraw","64.4 (15.1)","64.7 (13.9)","66.3 (9.8)","0.954","0.954","0.954","0.981"
+"totrecall","45.0 (10.8)","46.3 (11.2)","45.0 (10.7)","0.596","0.903","0.596","0.587"
+"delayrecall","44.1 (11.3)","44.6 (12.3)","44.4 (12.3)","0.830","0.830","0.830","0.900"
+"retention","45.1 (12.0)","45.8 (12.2)","45.5 (12.2)","0.642","0.642","0.995","0.638"
+"FAS","50.3 (10.9)","49.8 (10.9)","49.4 (11.4)","0.836","0.836","0.836","0.929"
+"JLO","11.7 (2.8)","11.9 (2.9)","12.2 (3.0)","0.577","0.321","0.344","0.478"
+"SDM","45.2 (9.9)","46.7 (9.7)","45.1 (8.5)","0.596","0.647","0.596","0.545"
+"LNS","11.5 (2.7)","11.7 (2.9)","11.2 (2.9)","0.442","0.457","0.262","0.275"
+"ADL","92.8 (6.6)","94.2 (6.1)","93.0 (5.3)","0.018","0.755","0.016","0.008"
+"pigd","0.3 (0.3)","0.2 (0.2)","0.2 (0.2)","0.034","0.002","0.034","0.008"
+"updrs1","8.3 (5.1)","5.7 (4.0)","6.3 (4.0)","<0.0001","<0.001","0.090","<0.0001"
+"updrs2","8.0 (5.1)","5.8 (4.2)","6.2 (3.7)","<0.0001","0.006","0.169","<0.0001"
+"totupdrs","39.2 (15.9)","33.8 (13.9)","34.5 (13.2)","<0.001","0.047","0.343","0.003"
+"C_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.006","0.694","0.029","0.006"
+"C_R","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.014","0.279","0.289","0.029"
+"C_BILAT","0.7 (0.3)","0.8 (0.3)","0.8 (0.3)","0.004","0.413","0.082","0.007"
+"P_L","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.109","0.314","0.026","0.028"
+"P_R","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.127","0.857","0.149","0.095"
+"P_BILAT","0.7 (0.3)","0.8 (0.3)","0.7 (0.3)","0.039","0.463","0.017","0.011"
+"S_L","0.7 (0.2)","0.8 (0.3)","0.7 (0.2)","0.009","0.550","0.009","0.005"
+"S_R","0.8 (0.3)","0.8 (0.3)","0.8 (0.2)","0.012","0.523","0.100","0.015"
+"S_BILAT","0.7 (0.2)","0.8 (0.2)","0.8 (0.2)","0.005","0.891","0.007","0.003"
+"Men","140 (80.9)","349 (61.4)","85 (74.6)","<0.0001","0.256","0.016","<0.0001"
+"SIDE=1.0","73 (43.2)","246 (43.5)","40 (35.1)","0.532","0.115","0.115","0.179"
+"SIDE=2.0","95 (56.2)","309 (54.7)","69 (60.5)","","","",""
+"SIDE=3.0","1 (0.6)","10 (1.8)","5 (4.4)","","","",""
+"NHY=1.0","58 (33.5)","203 (35.8)","36 (31.6)","0.829","0.829","0.829","0.779"
+"NHY=2.0","115 (66.5)","364 (64.2)","78 (68.4)","","","",""
+"cog=1.0","117 (88.6)","382 (89.7)","59 (92.2)","0.860","0.860","0.860","0.854"
+"cog=2.0","15 (11.4)","44 (10.3)","5 (7.8)","","","",""
 ```
+
+Note. agediag = age at Parkinson’s disease diagnosis; educyrs = years of education capped at 20 years; durayrs = duration from PD diagnosis to enrollment in years; upsit = University of Pennsylvania Smell Identification Test; scopa = Scales for Outcomes in Parkinson’s Disease–Autonomic Dysfunction; stai = State-Trait Anxiety Inventory; gds = Geriatric Depression Scale; ess = Epworth Sleepiness Scale; quip = Questionnaire for Impulsive-Compulsive Disorders in Parkinson’s Disease; clckdraw = Clock Drawing Test t-score; totrecall = HVLT immediate/total recall t-score; delayrecall = HVLT delayed recall t-score; retention = HVLT retention t-score; FAS = lexical fluency FAS t-score; JLO = Benton Judgment of Line Orientation MOANS scaled score; SDM = Symbol Digit Modalities Test t-score; LNS = Letter Number Sequencing scaled score; ADL = Modified Schwab & England Activities of Daily Living score; pigd = Postural Instability and Gait Difficulty; updrs1 = Movement Disorder Society Unified Parkinson’s Disease Rating Scale Part I score; updrs2 = MDS-UPDRS Part II score; totupdrs = total OFF score, including OFF and untreated scores; C_L = left caudate; C_R = right caudate; C_BILAT = bilateral caudate; P_L = left putamen; P_R = right putamen; P_BILAT = bilateral putamen; S_L = left striatum; S_R = right striatum; S_BILAT= bilateral striatum; SIDE = side most affected at PD symptom onset, coded as 1 = left, 2 = right, and 3 = symmetric; NHY = Hoehn and Yahr stage, including OFF and untreated scores; cog = investigator diagnosis of cognitive state, coded as 1 = normal cognition, 2 = mild cognitive impairment, and 3 = dementia.
 
 
 ## Secondary analysis
@@ -371,29 +397,31 @@ Red blood cells represent a significant source of interference in $\alpha$-synuc
 Multicollinearity was assessed using Variance Inflation Factors (VIF) via the car library [@johnfoxCompanionAppliedRegression2019], with all predictors yielding acceptable values (VIF < 5).
 
 
-```{figure} ./s4.png
+### Figure S4
+LMM Predicted Trajectories, for regions where nominal differences were found between Class 2 and Class 3
+```{image} ./s4.png
 :name: lmm-predicty
 :align: center
 :width: 100%
-
-LMM Predicted Trajectories, for regions where nominal differences were found between Class 2 and Class 3
 ```
 
 
-```{figure} ./s5.png
-:name: beeswarm-plot
+## XGBoost
+(supp-shap)=
+### Figure S5
+SHAP beeswarm plot for Class 1
+```{image} ./s5.png
+:name: supp-shap
 :align: center
-:width: 100%
+:width: 80%
 
-SHAP beeswarm plot
-REM (RBDSQ) is the most important baseline predictor of classes
 ```
-
-```{figure} ./s6.png
-:name: roc-curve
+(supp-roc)=
+### Figure S6
+ROC curves for one-vs-rest on the test set
+```{image} ./s6.png
+:name: supp-roc
 :align: center
-:width: 100%
+:width: 80%
 
-AUC ROC curve for XGBoost model (test set).
-Total AUC = 0.88
 ```
