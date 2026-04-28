@@ -21,13 +21,14 @@ project:
     affiliations: Neuromatch Academy, Neuromatch, Inc.
     roles: []
   - name: Pragata Ghosh
-    affiliations: []
+    orchid: 0009-0002-6184-3549
+    affiliations: All India Institute of Medical Sciences, New Delhi, India
     roles: []
   - name: Ishita Jain
     orchid: 0009-0007-2054-1882
     affiliations: All India Institute of Medical Sciences, Bhopal, India
     roles: []
-  - name: Fernando Chaure
+  - name: Fernando Julian Chaure
     orchid: 0000-0002-8072-3879
     affiliations: Universidad de San Andrés, Buenos Aires, Argentina
     roles: []
