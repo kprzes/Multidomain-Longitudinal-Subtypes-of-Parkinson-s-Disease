@@ -20,7 +20,7 @@ Statistical analyses were performed in R (4.5.3) and Python (3.12.13) ([Supp.Par
 
 1.	**Indicator Selection & Filtration:** Seven candidate class indicators (RBDSQ, SCOPA-AUT, STAI, SDMT, MDS-UPDRS III, MoCA, and $\Delta$SBP) were selected based on @velucci2025nonmotor, @he2023motor, and @chen2021orthostatic. Following univariate screening and multivariate testing, three (SCOPA-AUT, STAI, SDMT) were excluded as they failed to contribute to optimal class separability or provided redundant longitudinal signal.
 
-2.	**Structural Optimization:** Initial models evaluated both random intercepts and slopes. However, to prevent uninformative severity-driven clusters and ensure the algorithm identified true multidomain heterogeneity rather than just "mild vs. severe" groupings, we restricted the model to a random-intercept-only structure.
+2.	**Structural Optimization:** Initial models evaluated both random intercepts and slopes. However, to prevent uninformative severity-driven clusters [@pourzinalSystematicReviewDatadriven2022] and ensure the algorithm identified true multidomain heterogeneity rather than just "mild vs. severe" groupings, we restricted the model to a random-intercept-only structure.
 
 3.	**Link Function & Transform:** A parsimonious linear link combined with square-root transformed MoCA to resolve ceiling effects [@wangPredictiveModelLongitudinal2025] was required to achieve sufficient class separability. This specification satisfied @lennon2018framework criteria with OCC > 5 across all classes (concurrently with entropy > 0.7), whereas nonlinear functions (splines/beta) failed to meet these standards.
 
