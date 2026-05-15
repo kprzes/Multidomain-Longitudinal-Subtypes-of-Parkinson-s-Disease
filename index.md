@@ -83,7 +83,7 @@ For the description of baseline characteristics see [Supp.Baseline](#supp-baseli
 
 <br/><br/>
 
-To ensure model stability and numerical convergence, predictors were structured into two primary thematic blocks: MRI regional volumes (N = 474) and biofluid/clinical biomarkers (N = 240). Age, sex, and education were included as covariates in both models. Finally, UPSIT, Specific Binding Ratios (SBR), and APOE were evaluated using their maximum available sample sizes, with the more restricted combined model (N = 240) serving as a sensitivity analysis to verify the consistency of effect sizes and directions across cohorts.
+To ensure computation stability and numerical convergence, predictors were structured into two primary thematic blocks: MRI regional volumes (N = 474) and biofluid/clinical biomarkers (N = 240). Age, sex, and education were included as covariates in both models. Finally, UPSIT, Specific Binding Ratios (SBR), and APOE were evaluated using their maximum available sample sizes, with the more restricted combined model (N = 240) serving as a sensitivity analysis to verify the consistency of effect sizes and directions across cohorts.
 
 Logistic regression was performed using the raw scales for all predictors to ensure model integrity. However, for the reported results, ORs for MRI metrics were calculated by standardizing the coefficients per standard deviation. This transformation was necessary because the raw numerical scales of normalized brain volumes (often <0.1% of eTIV) produce ORs that are either extreme or indistinguishable from 1.0, hindering cross-domain comparison. Clinical and biofluid markers remain on their raw scales for direct clinical interpretation.
 
