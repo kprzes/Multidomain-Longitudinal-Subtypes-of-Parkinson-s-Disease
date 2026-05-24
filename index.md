@@ -14,33 +14,6 @@ Parkinson’s disease (PD) is one of the fastest-growing neurological disorders 
 
 # Methodology
 
-## Trajectory Analysis
-
-Statistical analyses were performed in R (4.5.3) and Python (3.12.13) ([Supp.Participants](#supp-participants); [Supp.Missingness and attrition](#supp-missingness-attrition)). We employed a systematic optimization of the multlcmm framework [@proustlima2017lcmm] to identify multidomain trajectories:
-
-1.	**Indicator Selection & Filtration:** Seven candidate class indicators (RBDSQ, SCOPA-AUT, STAI, SDMT, MDS-UPDRS III, MoCA, and $\Delta$SBP) were selected based on @velucci2025nonmotor, @he2023motor, and @chen2021orthostatic. Following univariate screening and multivariate testing, three (SCOPA-AUT, STAI, SDMT) were excluded as they failed to contribute to optimal class separability or provided redundant longitudinal signal. MDS-UPDRS III was retained despite weaker statistical sepearation to preserve representation for motor domain.
-
-2.	**Structural Optimization:** Initial models evaluated both random intercept-only and intercept-slope. A random intercept-only structure was retained as it produced a more stable and interpretable multivariate class solution, while the resulting classes were considered in terms of whether they reflected multidomain progression patterns rather than simple baseline severity strata[@pourzinalSystematicReviewDatadriven2022].
-
-3.	**Link Function & Transform:** A parsimonious linear link combined with square-root transformed MoCA to resolve ceiling effects [@wangPredictiveModelLongitudinal2025] was required to achieve sufficient class separability. This specification satisfied @lennon2018framework criteria with OCC > 5 across all classes (concurrently with entropy > 0.7), whereas nonlinear functions (splines/beta) failed to meet these standards.
-
-4.	**Model Selection & Validation:** Iterative versions were evaluated via VarExpl() to quantify indicator contributions. We used confusion matrices, Adjusted Rand Index (ARI), and Cramer’s V to compare multivariate assignments against univariate benchmarks. Notably, the linear link produced identical class assignments for both raw and z-standardized models, a unique stability not observed with alternative links. [Table S2](#supp-model-selection) [Table S3](#supp-class-comparison)
-
-The final 3-class model (RBDSQ, MoCA, MDS-UPDRS III, $\Delta$SBP) was selected based on the lowest Bayesian Information Criterion (BIC) and class sizes $> 5\%$. The z-standardized model was utilized for secondary analysis.
-
-
-## Secondary Analysis
-
-MRI processing, quality control and other data preparation details are described in [Supp.MRI](#supp-mri-processing) and [Supp.Data](#supp-data-preparation). 
-
-Relating latent class models to external variables requires careful handling of estimation bias. The traditional "one-step" method where covariates and the latent class model are estimated simultaneously often suffers from model instability, as the inclusion of predictors can shift the latent structure itself. To avoid this, many studies fall into the trap of the "naive" three-step method (assigning participants to classes before regression), which produces biased parameter estimates by ignoring classification uncertainty. We instead employed the improved three-step and two-step frameworks developed to account for this uncertainty [@bolckEstimatingLatentStructure2004; @vermuntLatentClassModeling2010; @bakkTwoStepEstimationModels2018; @nylund-gibsonCovariatesMixtureModeling2016]. Specifically, we utilized the externVar function in the lcmm package [@proust-limaAccountingLatentClassn.d.], opting for the two-step method over the three-step bootstrap to maintain computational efficiency while achieving comparable bias reduction.
-
-The relationship between class membership and longitudinal atrophy (LMM) was implemented using the hlme function. We acknowledge that this specific analysis utilized a modal (naive) class assignment, as a corrected bias-adjustment method for LMMs was not available in the current lcmm implementation. 
-
-
-## XGBoost
-
-We employed XGBoost, a gradient boosting framework optimised for tabular data to predict the latent classes from baseline features. The dataset contains PATNO, their respective class assignment , age, sex, race, baseline clinical scales, DaTScan features, genetics and biofluid markers. The dataset was split into (70:15:15) train, validation, test set. Hyperparameters were optimised using Random search and 3 fold cross validation. We also used sample weights and balanced accuracy to tackle the problem of imbalanced classes. Model performance was evaluated using AUC. SHAP was employed to explain the results of XGBoost.
 
 <br/><br/>
 
@@ -148,7 +121,7 @@ Longitudinal analysis revealed divergent temporal dynamics: while the high-burde
 
 <br/><br/>
 
-The XGBoost model achieved an AUC of 0.88 and a CV balanced accuracy of 0.73 on test set with a maximum tree depth of 4 and learning rate of 0.06. SHAP analysis revealed REM (RBDSQ) as the most important predictor of classes followed by CSF ɑ-synuclein levels at baseline. [Figure S5](#supp-shap) [Figure S6](#supp-roc)
+The XGBoost model achieved an AUC of 0.88 and a CV balanced accuracy of 0.73 on test set with a maximum tree depth of 4 and learning rate of 0.06. SHAP analysis revealed REM (RBDSQ) as the most important predictor of classes followed by CSF ɑ-synuclein levels at baseline [Figure S5](#supp-shap) [Figure S6](#supp-roc). These findings suggest good predictive performance of baseline data, indicating potential utility while reinforcing our findings from latent class model.
 
 
 # Discussion
@@ -189,16 +162,58 @@ $^\dagger$ These authors contributed equally to this work.
 
 # Supplementary material
 
-## Trajectory analysis
-(supp-participants)=
+## List of Abbreviations
+
+```{glossary}
+PPMI
+  Parkinson's Precision Medicine Initiative
+
+PD
+  Parkinson’s Disease
+
+LCMM
+  Latent Class Mixed Model (R function)
+
+RBDSQ
+  REM Sleep Behaviour Disorder Screening Questionnaire
+
+MoCA
+  Montreal Cognitive Assessment
+
+$\Delta$SBP
+  Delta Systolic Blood Pressure
+
+MDS-UPDRS
+  Movement Disorder Society Unified Parkinson's Disease Rating Scale
+```
+
+<br/><br/>
+
+(supp-methodology)=
+## Methodology
+
+
 ### Participants
+
 PPMI is an ongoing multicenter longitudinal observational study, launched in 2010. Before study initiation, each site was approved by the appropriate institutional review, and fully in accordance with the Declaration of Helsinki. All subjects provided written informed consent before participation.
 Inclusion criteria: drug naïve, with a levodopa equivalent daily dose (LEDD) of 0, disease duration within 2 years, early course with Hoehn-Yahr stage (H-Y stage) < 3 and without dementia at baseline. Patients below age 50 were also excluded to avoid cases of early onset PD. Maximum follow-up periods were set as 5 years, two or more follow-ups were included, resulting in a total of 855 Parkinson’s Disease participants.
 
+### Latent Mixture Model
 
-(supp-missingness-attrition)=
+Statistical analyses were performed in R (4.5.3) and Python (3.12.13). We employed a systematic optimization of the multlcmm framework [@proustlima2017lcmm] to identify multidomain trajectories:
+
+1.	**Indicator Selection & Filtration:** Seven candidate class indicators (RBDSQ, SCOPA-AUT, STAI, SDMT, MDS-UPDRS III, MoCA, and $\Delta$SBP) were selected based on @velucci2025nonmotor, @he2023motor, and @chen2021orthostatic. Following univariate screening and multivariate testing, three (SCOPA-AUT, STAI, SDMT) were excluded as they failed to contribute to optimal class separability or provided redundant longitudinal signal. MDS-UPDRS III was retained despite weaker statistical sepearation to preserve representation for motor domain.
+
+2.	**Structural Optimization:** Initial models evaluated both random intercept-only and intercept-slope. A random intercept-only structure was retained as it produced a more stable and interpretable multivariate class solution, while the resulting classes were considered in terms of whether they reflected multidomain progression patterns rather than simple baseline severity strata [@pourzinalSystematicReviewDatadriven2022].
+
+3.	**Link Function & Transform:** A parsimonious linear link combined with square-root transformed MoCA to resolve ceiling effects [@wangPredictiveModelLongitudinal2025] was required to achieve sufficient class separability. This specification satisfied @lennon2018framework criteria with OCC > 5 across all classes (concurrently with entropy > 0.7), whereas nonlinear functions (splines/beta) failed to meet these standards.
+
+4.	**Model Selection & Validation:** Iterative versions were evaluated via VarExpl() to quantify indicator contributions. We used confusion matrices, Adjusted Rand Index (ARI), and Cramer’s V to compare multivariate assignments against univariate benchmarks. Notably, the linear link produced identical class assignments for both raw and z-standardized models, a unique stability not observed with alternative links. [Table S2](#supp-model-selection) [Table S3](#supp-class-comparison)
+
+The final 3-class model (RBDSQ, MoCA, MDS-UPDRS III, $\Delta$SBP) was selected based on the lowest Bayesian Information Criterion (BIC) and class sizes $> 5\%$. The z-standardized model was utilized for secondary analysis.
+
 ### Missingness and attrition
-The missing rates for RBD, MoCA, delta SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. LCMM accommodates incomplete longitudinal data, so no additional missingness handling was performed. Little’s MCAR test was significant (χ² = 208, df = 28, p < .001), indicating that the data were not missing completely at random. Given that participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three classes had dropped by year 5, Class1 showed the highest attrition. 
+The missing rates for RBD, MoCA, $\Delta$SBP, and UPDRS3 were 0.9%, 1.1%, 3%, and 16%, respectively. LCMM accommodates incomplete longitudinal data, so no additional missingness handling was performed. Little’s MCAR test was significant (χ² = 208, df = 28, p < .001), indicating that the data were not missing completely at random. Given that participants with more severe disease were more likely to drop out, we assumed the data were missing at random. The majority of participants of three classes had dropped by year 5, Class1 showed the highest attrition. 
 
 ### Figure S1
 Missing data pattern
@@ -222,6 +237,29 @@ Attrition by latent class across follow-up years
 "Class 2","568<br>(100.0%)","548<br>(96.5%)","447<br>(78.7%)","319<br>(56.2%)","217<br>(38.2%)","162<br>(28.5%)"
 "Class 3","114<br>(100.0%)","110<br>(96.5%)","99<br>(86.8%)","82<br>(71.9%)","65<br>(57.0%)","47<br>(41.2%)"
 ```
+
+### MRI processing
+
+Baseline morphological and quality control data were obtained directly from the PPMI repository, derived from the FreeSurfer (v7.3.2) and MRIQC (v23.1.0) pipelines within the nipoppy framework [@bhagwatProcessingAnalysisreadyImagederived2023]. To extend this to a longitudinal framework while maintaining computational efficiency, we independently processed all participants with available structural MRI at two or more visits (n = 382 of the total N = 855 inclusion cohort) using FastSurfer (v2.4.2) [@henschelFastSurferFastAccurate2020]. A total of 1036 scans were segmented, with volume statistics collated for regions defined by the Desikan-Killiany Atlas [@desikanAutomatedLabelingSystem2006]. One participant was subsequently excluded due to technical issues involving missing entries and extreme hemispheric asymmetry. The specific processing parameters and code for this pipeline are documented in the Colab notebooks within our GitHub repository.
+
+Quality control for the Freesurfer data involved a rigorous outlier detection process using the Gap Statistic algorithm [@tibshiraniEstimatingNumberClusters2001] via the GapStatistics Python package [@loehrGapStatistics2025]. We focused on three key MRIQC metrics: the coefficient of joint variation (CJV), contrast-to-noise ratio (CNR), and entropy focus criterion.
+
+### Secondary Analysis
+
+Relating latent class models to external variables requires careful handling of estimation bias. The traditional "one-step" method where covariates and the latent class model are estimated simultaneously often suffers from model instability, as the inclusion of predictors can shift the latent structure itself. To avoid this, many studies fall into the trap of the "naive" three-step method (assigning participants to classes before regression), which produces biased parameter estimates by ignoring classification uncertainty. We instead employed the improved three-step and two-step frameworks developed to account for this uncertainty [@bolckEstimatingLatentStructure2004; @vermuntLatentClassModeling2010; @bakkTwoStepEstimationModels2018; @nylund-gibsonCovariatesMixtureModeling2016]. Specifically, we utilized the externVar function in the lcmm package [@proust-limaAccountingLatentClassn.d.], opting for the two-step method over the three-step bootstrap to maintain computational efficiency while achieving comparable bias reduction.
+
+Predictors were selected based on their importance to PD pathogenesis according to prior literature. Multicollinearity was assessed using Variance Inflation Factors (VIF) via the car library [@johnfoxCompanionAppliedRegression2019], with all predictors yielding acceptable values (VIF < 5).
+
+Red blood cells represent a significant source of interference in α-synuclein assays [@barbourRedBloodCells2008]. To account for this, we leveraged the PPMI hemoglobin (Hb) threshold indicators. Comparative analysis confirmed that α-synuclein levels did not differ significantly in median (Mann-Whitney U, p = .627) or distribution (Kolmogorov-Smirnov, p = .495) between samples with detectable Hb (n = 60) and those without (n = 265); consequently, the full sample was retained to maximize statistical power. Associations between monogenic PD variants and class membership were not evaluated due to the high prevalence of sporadic cases (N = 808, 94.5%). Furthermore, APOE ε4 status was binarized (carrier vs. non-carrier) because homozygous cases were too infrequent for independent analysis.
+
+The relationship between class membership and longitudinal atrophy (LMM) was implemented using the hlme function. We acknowledge that this specific analysis utilized a modal (naive) class assignment, as a corrected bias-adjustment method for LMMs was not available in the current lcmm implementation. 
+
+For the cross-sectional multinomial logistic regression, we used Freesurfer outputs, normalized by estimated Total Intracranial Volume (eTIV) to account for head size [@voevodskayaEffectsIntracranialVolume2014]. For the longitudinal Linear Mixed Models (LMM), which investigated atrophy and ventricular expansion rates, we used Fastsurfer outputs. Because Fastsurfer does not provide an eTIV estimate, these volumes were normalized using MaskVol; this shift in normalization was a necessary adaptation to the respective software pipelines rather than a change in statistical strategy.
+
+
+### XGBoost
+
+We employed XGBoost, a gradient boosting framework optimised for tabular data to predict the latent classes from baseline features, with the of developing a lightweight model. The dataset contains PATNO, their respective class assignment , age, sex, race, baseline clinical scales, DaTScan features, genetics and biofluid markers. The dataset was split into (70:15:15) train, validation, test set. Hyperparameters were optimised using Random search and 3 fold cross validation. We also used sample weights and balanced accuracy to tackle the problem of imbalanced classes. Model performance was evaluated using AUC. SHAP was employed to explain the results of XGBoost.
 
 
 
@@ -380,21 +418,6 @@ Baseline characteristics by latent class
 Note. agediag = age at Parkinson’s disease diagnosis; educyrs = years of education capped at 20 years; durayrs = duration from PD diagnosis to enrollment in years; upsit = University of Pennsylvania Smell Identification Test; scopa = Scales for Outcomes in Parkinson’s Disease–Autonomic Dysfunction; stai = State-Trait Anxiety Inventory; gds = Geriatric Depression Scale; ess = Epworth Sleepiness Scale; quip = Questionnaire for Impulsive-Compulsive Disorders in Parkinson’s Disease; clckdraw = Clock Drawing Test t-score; totrecall = HVLT immediate/total recall t-score; delayrecall = HVLT delayed recall t-score; retention = HVLT retention t-score; FAS = lexical fluency FAS t-score; JLO = Benton Judgment of Line Orientation MOANS scaled score; SDM = Symbol Digit Modalities Test t-score; LNS = Letter Number Sequencing scaled score; ADL = Modified Schwab & England Activities of Daily Living score; pigd = Postural Instability and Gait Difficulty; updrs1 = Movement Disorder Society Unified Parkinson’s Disease Rating Scale Part I score; updrs2 = MDS-UPDRS Part II score; totupdrs = total OFF score, including OFF and untreated scores; C_L = left caudate; C_R = right caudate; C_BILAT = bilateral caudate; P_L = left putamen; P_R = right putamen; P_BILAT = bilateral putamen; S_L = left striatum; S_R = right striatum; S_BILAT= bilateral striatum; SIDE = side most affected at PD symptom onset, coded as 1 = left, 2 = right, and 3 = symmetric; NHY = Hoehn and Yahr stage, including OFF and untreated scores; cog = investigator diagnosis of cognitive state, coded as 1 = normal cognition, 2 = mild cognitive impairment, and 3 = dementia.
 
 
-## Secondary analysis
-(supp-mri-processing)=
-### MRI processing
-Baseline morphological and quality control data were obtained directly from the PPMI repository, derived from the FreeSurfer (v7.3.2) and MRIQC (v23.1.0) pipelines within the nipoppy framework [@bhagwatProcessingAnalysisreadyImagederived2023]. To extend this to a longitudinal framework while maintaining computational efficiency, we independently processed all participants with available structural MRI at two or more visits (n = 382 of the total N = 855 inclusion cohort) using FastSurfer (v2.4.2) [@henschelFastSurferFastAccurate2020]. A total of 1036 scans were segmented, with volume statistics collated for regions defined by the Desikan-Killiany Atlas [@desikanAutomatedLabelingSystem2006]. One participant was subsequently excluded due to technical issues involving missing entries and extreme hemispheric asymmetry. The specific processing parameters and code for this pipeline are documented in the Colab notebooks within our GitHub repository.
-
-For the cross-sectional multinomial logistic regression, we used Freesurfer outputs, normalized by estimated Total Intracranial Volume (eTIV) to account for head size [@voevodskayaEffectsIntracranialVolume2014]. For the longitudinal Linear Mixed Models (LMM), which investigated atrophy and ventricular expansion rates, we used Fastsurfer outputs. Because Fastsurfer does not provide an eTIV estimate, these volumes were normalized using MaskVol; this shift in normalization was a necessary adaptation to the respective software pipelines rather than a change in statistical strategy.
-
-Quality control for the Freesurfer data involved a rigorous outlier detection process using the Gap Statistic algorithm [@tibshiraniEstimatingNumberClusters2001] via the GapStatistics Python package [@loehrGapStatistics2025]. We focused on three key MRIQC metrics: the coefficient of joint variation (CJV), contrast-to-noise ratio (CNR), and entropy focus criterion.
-
-
-(supp-data-preparation)=
-### Data preparation
-Red blood cells represent a significant source of interference in α-synuclein assays [@barbourRedBloodCells2008]. To account for this, we leveraged the PPMI hemoglobin (Hb) threshold indicators. Comparative analysis confirmed that α-synuclein levels did not differ significantly in median (Mann-Whitney U, p = .627) or distribution (Kolmogorov-Smirnov, p = .495) between samples with detectable Hb (n = 60) and those without (n = 265); consequently, the full sample was retained to maximize statistical power. Associations between monogenic PD variants and class membership were not evaluated due to the high prevalence of sporadic cases (N = 808, 94.5%). Furthermore, APOE ε4 status was binarized (carrier vs. non-carrier) because homozygous cases were too infrequent for independent analysis.
-
-Multicollinearity was assessed using Variance Inflation Factors (VIF) via the car library [@johnfoxCompanionAppliedRegression2019], with all predictors yielding acceptable values (VIF < 5).
 
 
 ### Figure S4

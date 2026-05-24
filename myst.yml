@@ -9,27 +9,31 @@ project:
   # date: YYYY-MM-DD
   authors: 
   - name: Shiman Wen†
-    orchid: 0000-0002-6538-8793
-    equal-contributor: true
+    orcid: 0000-0002-6538-8793
+    equal_contributor: true
     note: "†"
     affiliations: Neuromatch Academy, Neuromatch, Inc.
+    corresponding: true
+    email: shimanwen360@gmail.com
     roles: []
   - name: Krzysztof Przestrzelski†
-    orchid: 0009-0005-9950-3306
-    equal-contributor: true
+    orcid: 0009-0005-9950-3306
+    equal_contributor: true
     note: "†"
     affiliations: Neuromatch Academy, Neuromatch, Inc.
+    corresponding: true
+    email: k.przestrzelski75@gmail.com
     roles: []
   - name: Pragata Ghosh
-    orchid: 0009-0002-6184-3549
+    orcid: 0009-0002-6184-3549
     affiliations: All India Institute of Medical Sciences, New Delhi, India
     roles: []
   - name: Ishita Jain
-    orchid: 0009-0007-2054-1882
+    orcid: 0009-0007-2054-1882
     affiliations: All India Institute of Medical Sciences, Bhopal, India
     roles: []
   - name: Fernando Julian Chaure
-    orchid: 0000-0002-8072-3879
+    orcid: 0000-0002-8072-3879
     affiliations: Universidad de San Andrés, Buenos Aires, Argentina
     roles: []
     
@@ -46,9 +50,17 @@ project:
   github: https://github.com/impact-scholars/Multidomain-Longitudinal-Subtypes-of-Parkinson-s-Disease
   bibliography:
   - bib.bib
-  metadata:
+  abbreviations:
+    PD: Parkinson’s Disease
+    PPMI: Parkinson's Precision Medicine Initiative
+    LCMM: Latent Class Mixed Model (R function)
+    RBDSQ: REM Sleep Behaviour Disorder Screening Questionnaire
+    MoCA: Montreal Congnitive Assessment
+    SBP: Systolic Blood Pressure
+    MDS-UPDRS: Movement Disorder Society Unified Parkinson's Disease Rating Scale
   notes:
-    †: "These authors contributed equally to this work."
+  - †: "These authors contributed equally to this work."
+  metadata:
   # downloads:
   # - file: supplementary-material.zip
   #   title: Supplementary Material
