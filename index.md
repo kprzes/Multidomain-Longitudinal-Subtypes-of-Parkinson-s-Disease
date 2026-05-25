@@ -1,5 +1,5 @@
 ---
-title: Parallels between RBDSQ Progression and Brain Morphology in Longitudinal Subtyping of PPMI Cohort
+title: REM Sleep Behaviour Disorder Dominates Heterogeneity in Longitudinal Analysis of Parkinson's Disease
 abstract: |
     Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step externVar approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ and CSF $\alpha$-synuclein as the most critical predictors of class membership.
 acknowledgments: |
@@ -164,28 +164,104 @@ $^\dagger$ These authors contributed equally to this work.
 
 ## List of Abbreviations
 
-```{glossary}
-PPMI
-  Parkinson's Precision Medicine Initiative
+AIC
+: Akaike Information Criterion
 
-PD
-  Parkinson’s Disease
+APOE $\epsilon$4
+: Apolipoprotein E (gene) $\epsilon$4 variant
 
-LCMM
-  Latent Class Mixed Model (R function)
+ARI
+: Adjusted Rand Index
 
-RBDSQ
-  REM Sleep Behaviour Disorder Screening Questionnaire
+AUC
+: Area Under the Curve
 
-MoCA
-  Montreal Cognitive Assessment
+BIC
+: Bayesian Information Criterion
+
+CSF
+: Cerebrospinal Fluid
+
+CV
+: Cross-Validation
+
+DAT
+: Dopamine Transporter (imaging)
 
 $\Delta$SBP
-  Delta Systolic Blood Pressure
+: Delta Systolic Blood Pressure
+
+eTIV
+: estimated Total Intracranial Volume
+
+Hb
+: Hemoglobin
+
+LCMM
+: Latent Class Mixed Model (R function)
+
+LEDD
+: Levodopa Equivalent Daily Dose
+
+LMM
+: Linear Mixed Model
+
+MCAR
+: Missing Completely at Random (statistical test)
 
 MDS-UPDRS
-  Movement Disorder Society Unified Parkinson's Disease Rating Scale
-```
+: Movement Disorder Society Unified Parkinson's Disease Rating Scale
+
+MoCA
+: Montreal Cognitive Assessment
+
+MRIQC
+: MRI Quality Control (pipeline)
+
+OCC
+: Odds of Correct Classification
+
+OR
+: Odds Ratio
+
+PATNO
+: Patient Number (in PPMI)
+
+PD
+: Parkinson’s Disease
+
+PPMI
+: Parkinson's Precision Medicine Initiative
+
+RBD
+: REM Sleep Behaviour Disorder
+
+RBDSQ
+: REM Sleep Behaviour Disorder Screening Questionnaire
+
+ROC
+: Receiver Operating Characteristic
+
+SBR
+: Striatal Binding Ratio
+
+SCOPA-AUT
+: Scales for Outcomes in Parkinson's Disease - Autonomic Dysfunction
+
+SHAP
+: SHapley Additive exPlanations
+
+STAI
+: State-Trait Anxiety Inventory
+
+UPSIT
+: University of Pennsylvania Smell Identification Test
+
+VIF
+: Variance Inflation Factor
+
+WM
+: White Matter
 
 <br/><br/>
 

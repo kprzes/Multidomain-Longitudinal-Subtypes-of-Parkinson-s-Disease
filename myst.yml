@@ -11,7 +11,7 @@ project:
   - name: Shiman Wen†
     orcid: 0000-0002-6538-8793
     equal_contributor: true
-    note: "†"
+    note: "These authors contributed equally to this work."
     affiliations: Neuromatch Academy, Neuromatch, Inc.
     corresponding: true
     email: shimanwen360@gmail.com
@@ -19,7 +19,7 @@ project:
   - name: Krzysztof Przestrzelski†
     orcid: 0009-0005-9950-3306
     equal_contributor: true
-    note: "†"
+    note: "These authors contributed equally to this work."
     affiliations: Neuromatch Academy, Neuromatch, Inc.
     corresponding: true
     email: k.przestrzelski75@gmail.com
@@ -51,16 +51,39 @@ project:
   bibliography:
   - bib.bib
   abbreviations:
+    AIC: Akaike Information Criterion
+    APOE: Apolipoprotein E (gene)
+    ARI: Adjusted Rand Index
+    AUC: Area Under the Curve
+    BIC: Bayesian Information Criterion
+    CSF: Cerebrospinal Fluid
+    CV: Cross-Validation
+    DAT: Dopamine Transporter (imaging)
+    eTIV: estimated Total Intracranial Volume
+    Hb: Hemoglobin
+    LCMM: Latent Class Mixed Model (R function)
+    LEDD: Levodopa Equivalent Daily Dose
+    LMM: Linear Mixed Model
+    MCAR: Missing Completely at Random (statistical test)
+    MDS-UPDRS: Movement Disorder Society Unified Parkinson's Disease Rating Scale
+    MoCA: Montreal Cognitive Assessment
+    MRIQC: MRI Quality Control (pipeline)
+    OCC: Odds of Correct Classification
+    OR: Odds Ratio
+    PATNO: Patient Number (in PPMI)
     PD: Parkinson’s Disease
     PPMI: Parkinson's Precision Medicine Initiative
-    LCMM: Latent Class Mixed Model (R function)
+    RBD: REM Sleep Behaviour Disorder
     RBDSQ: REM Sleep Behaviour Disorder Screening Questionnaire
-    MoCA: Montreal Congnitive Assessment
+    ROC: Receiver Operating Characteristic
     SBP: Systolic Blood Pressure
-    MDS-UPDRS: Movement Disorder Society Unified Parkinson's Disease Rating Scale
-  notes:
-  - †: "These authors contributed equally to this work."
-  metadata:
+    SBR: Striatal Binding Ratio
+    SCOPA-AUT: Scales for Outcomes in Parkinson's Disease - Autonomic Dysfunction
+    SHAP: SHapley Additive exPlanations
+    STAI: State-Trait Anxiety Inventory
+    UPSIT: University of Pennsylvania Smell Identification Test
+    VIF: Variance Inflation Factor
+    WM: White Matter
   # downloads:
   # - file: supplementary-material.zip
   #   title: Supplementary Material
