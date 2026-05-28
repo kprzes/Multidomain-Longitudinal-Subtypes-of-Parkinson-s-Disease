@@ -71,11 +71,13 @@ project:
     OCC: Odds of Correct Classification
     OR: Odds Ratio
     PATNO: Patient Number (in PPMI)
+    PIGD: Postural Instability and Gait Difficulty
     PD: Parkinson’s Disease
     PPMI: Parkinson's Precision Medicine Initiative
     RBD: REM Sleep Behaviour Disorder
     RBDSQ: REM Sleep Behaviour Disorder Screening Questionnaire
     ROC: Receiver Operating Characteristic
+    SAA: Seed Amplification Assay
     SBP: Systolic Blood Pressure
     SBR: Striatal Binding Ratio
     SCOPA-AUT: Scales for Outcomes in Parkinson's Disease - Autonomic Dysfunction

@@ -1,19 +1,20 @@
 ---
 title: REM Sleep Behaviour Disorder Dominates Heterogeneity in Longitudinal Analysis of Parkinson's Disease
 abstract: |
-    Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step externVar approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ and CSF $\alpha$-synuclein as the most critical predictors of class membership.
+    Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step externVar approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ and CSF $\alpha$-synuclein SAA as the most critical predictors of class membership.
 acknowledgments: |
     This work was supported by the Impact Scholars Program. We thank the PPMI participants and staff.
 ---
 
 # Introduction
 
-Parkinson’s disease (PD) is one of the fastest-growing neurological disorders globally, presenting a significant challenge to healthcare systems and patient quality of life [@wangEpidemiologyParkinsonsDisease2026; @michaelj.foxfoundationforparkinsonsresearchEconomicBurdenParkinsons2026]. It is generally observed that PD clinical subtypes are predominantly an early-stage phenomenon, often coalescing into a more uniform clinical presentation as the disease advances [@sauerbierNonMotorSubtypes2016]. While seminal baseline multi-modal clustering studies [@fereshtehnejadClinicalCriteriaSubtyping2017; @velucci2025nonmotor] have provided monumental insights into PD heterogeneity at a static time point, they are inherently limited in capturing the disease’s most defining characteristic: its variable rate of progression. A central challenge remains in determining whether these initial clinical snapshots translate into sustained, divergent trajectories over time. Previous research has successfully employed univariate latent class growth models to study individual domains—such as cognition (MoCA) [@pourzinal2024profiling], autonomic function (ΔSBP) [@chen2021orthostatic], and motor progression (MDS-UPDRS Part  III) [@he2023motor]. For sleep domain, previous studies often used the RBD screening questionnaire (RBDSQ), a verified easily applicable self-screening tool [@StiasnyKolster2007RBDSQ] to perform cross-sectional analysis [@Iijima2021RBDOlfactoryPD; @Bjornara2013RBDGenderPD], limited in discovering the heterogeneous evolution pattern in early-stage Parkinson’s disease[@Ye2022RBDProgressionPD]. Evaluating these axes in isolation limits our understanding of PD as a multi-system disorder. To offer a multidimential perspective, our research undertakes an exploratory investigation using a multivariate longitudinal latent class model. We also relate these emergent clinical phenotypes to targeted structural biomarkers as highlighted in recent meta-analyses [@filideiParkinsonsDiseaseClinical2025], bridging the gap between data-driven clinical subtypes and their underlying biological correlates is a critical priority for the field.
+Translational research mandates from the National Institutes of Health emphasize the urgent need to characterize the natural history of Parkinson’s disease (PD) and develop objective stratification tools [@sieberPrioritizedResearchRecommendations2014]. Large-scale cohort studies, such as the Parkinson’s Precision Medicine Initiative (PPMI), now provide the infrastructure necessary to discover data-driven progression subtypes and accelerate targeted therapeutic trials [@marekParkinsonsProgressionMarkers2018]. Historically, this stratification relied on baseline motor features, distinguishing between tremor-dominant and postural instability and gait difficulty (PIGD) phenotypes [@jankovicVariableExpressionParkinsons1990]. However, both clinical and data-driven subtypes are predominantly early-stage phenomena, often coalescing into a more uniform clinical presentation as the disease advances [@sauerbierNonMotorSubtypes2016].
 
-<br/><br/>
+Comprehensive multidomain clustering studies have significantly advanced our understanding of PD heterogeneity. By defining phenotypic profiles at a static baseline, standard distance-based clustering approaches have successfully identified subgroups with distinctly divergent clinical outcomes, such as the fast-progressing "diffuse malignant" phenotype [@fereshtehnejadNewClinicalSubtypes2015; @fereshtehnejadClinicalCriteriaSubtyping2017; @velucci2025nonmotor]. Notably, this same temporal approach is frequently mirrored even in studies utilizing advanced machine learning frameworks [@markelloMultimodalPhenotypicAxes2021]: phenotypic classes are established cross-sectionally, and longitudinal follow-up is only used post hoc to observe the progression of these fixed groups. Conversely, approaches that explicitly subtype patients based on progression rates have demonstrated the immense prognostic value of temporal data [@faghriPredictingOnsetProgression2018]. Yet, these machine learning methods often compress longitudinal follow-up into static summary vectors, obscuring the dynamic shape of the disease course. 
 
-# Methodology
+To capture actual symptom evolution, recent research has employed univariate latent class models to map individual domains over time, such as cognition [@pourzinal2024profiling], autonomic function [@chen2021orthostatic], and motor severity [@he2023motor]. Evaluating these axes in isolation limits our understanding of PD as a multi-system disorder. To bridge this gap, our research undertakes an exploratory investigation using a multivariate longitudinal Latent Class Mixed Model (LCMM). Rather than assuming equal contribution across all symptom domains, this multi-dimensional approach allows the natural variance of the cohort to dictate the clustering, revealing which clinical scales predominantly drive longitudinal heterogeneity. 
 
+Finally, we relate these emergent clinical phenotypes to targeted biological metrics. Specifically, we focus on structural MRI, as morphological atrophy patterns have been shown to directly track both clinical disease severity and the trans-neuronal spread of PD pathology [@zeighamiNetworkStructureBrain2015]. As highlighted in a recent review [@filideiParkinsonsDiseaseClinical2025], bridging this gap between data-driven clinical subtypes and their underlying biological correlates is a critical priority for the field to ensure clinical classifications reflect true pathophysiological differences.
 
 <br/><br/>
 
@@ -227,11 +228,14 @@ OR
 PATNO
 : Patient Number (in PPMI)
 
+PIGD
+: Postural Instability and Gait Difficulty
+
 PD
 : Parkinson’s Disease
 
 PPMI
-: Parkinson's Precision Medicine Initiative
+: Parkinson's Precision Medicine Initiative (formerly Parkinson's Progression Markers Initiative)
 
 RBD
 : REM Sleep Behaviour Disorder
@@ -241,6 +245,9 @@ RBDSQ
 
 ROC
 : Receiver Operating Characteristic
+
+SAA
+: Seed Amplification Assay
 
 SBR
 : Striatal Binding Ratio
