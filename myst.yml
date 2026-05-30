@@ -10,16 +10,16 @@ project:
   authors: 
   - name: Shiman Wen†
     orcid: 0000-0002-6538-8793
-    equal_contributor: true
-    note: "These authors contributed equally to this work."
+    equal-contributor: true
+    note: "†These authors contributed equally to this work."
     affiliations: Neuromatch Academy, Neuromatch, Inc.
     corresponding: true
     email: shimanwen360@gmail.com
     roles: []
   - name: Krzysztof Przestrzelski†
     orcid: 0009-0005-9950-3306
-    equal_contributor: true
-    note: "These authors contributed equally to this work."
+    equal-contributor: true
+    note: "†These authors contributed equally to this work."
     affiliations: Neuromatch Academy, Neuromatch, Inc.
     corresponding: true
     email: k.przestrzelski75@gmail.com
