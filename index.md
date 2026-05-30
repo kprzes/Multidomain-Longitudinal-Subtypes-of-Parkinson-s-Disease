@@ -1,7 +1,7 @@
 ---
 title: REM Sleep Behaviour Disorder Dominates Heterogeneity in Longitudinal Analysis of Parkinson's Disease
 abstract: |
-    Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step `externVar` approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ and CSF $\alpha$-synuclein SAA as the most critical predictors of class membership.
+    Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step externVar approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ as the most critical predictors of class membership.
 acknowledgments: |
     This work was supported by the Impact Scholars Program. We thank the PPMI participants and staff.
 ---
@@ -36,11 +36,10 @@ Finally, we relate these emergent clinical phenotypes to targeted biological met
 
 <br/><br/>
 
-We implemented a multivariate latent class mixed model (`multiLCMM`) across various combinations of clinical scales. The optimal number of classes and the final indicator set, were selected based on class separability and Bayesian Information Criterion (BIC). The end result was a 3-class model: class1 n=173 (20.23%) stable high burden group, class2 n=568 (66.43%) low burden group, class3 n=114 (13.33%) increasing burden group. The class indicator trajectories are shown in [Figure 1 (A-D)](#figure-main) and [Figure S2](#supp-trajectory), fit metrics are shown in [Table 1](#main-model-selection).
+## Latent Class Identification and Trajectories
+Multivariate LCMM identified a three-class solution as optimal based on the lowest BIC, mean posterior probabilities >70%, minimum class size >5%, and relative entropy >0.7 [Table 1](#main-model-selection), full methodological details are provided in [Supp.Methodology](#supp-methodology) : a Stable High-Burden class (Class 1, n = 173, 20.2%), a Low-Burden class (Class 2, n = 568, 66.4%), and an Increasing-Burden class (Class 3, n = 114, 13.3%). Observed mean trajectories are shown in [Figure 1 (A-D)](#figure-main). Class 1 maintained stably elevated RBDSQ scores above the diagnostic cutoff (≥5) throughout follow-up. Class 2 remained consistently below the cutoff across all five years. Class 3 started below the cutoff at baseline, crossed the threshold at approximately Year 2, and approached Class 1 levels by Year 5. ΔSBP increased progressively in Classes 1 and 3 while remaining stable in Class 2. UPDRS-III increased across all classes, most steeply in Class 1 from Year 3 onward. MoCA declined in Class 3 from Year 3–4 onward, falling below 26 by Year 5, while remaining relatively stable in Classes 1 and 2. Among the four indicators, residual standard errors were 1.25 for RBDSQ, 14.15 for MoCA, 22.11 for UPDRS-III, and 11.58 for ΔSBP, with RBDSQ accounting for the largest proportion of variance explained (39.1%), substantially exceeding ΔSBP (0.74%), MoCA (0.50%), and UPDRS-III (0.20%)., with the multivariate class structure showing strong agreement with the RBDSQ-only solution (ARI = 0.96; Cramér's V = 0.95) [Table S1](#supp-rbd-model-selection) [Table S2](#supp-rbd-class-comparison). For the description of baseline characteristics see [Supp.Baseline](#supp-baseline).
 
-All three classes had OCC values greater than 5. The residual standard errors were 1.25 for RBDSQ, 14.15 for MoCA, 22.11 for UPDRS III, and 11.58 for ΔSBP. The proportions of variance explained were 39.14%, 0.50%, 0.20%, 0.74%, respectively. We compared the 3-class solution from the multivariate model with the 3-class RBDSQ-only LCMM solution. The high agreement between the two classifications (ARI = 0.96; Cramer’s V = 0.95) indicated that the class structure was largely driven by the RBDSQ trajectory. [Table S4](#supp-rbd-model-selection) [Table S5](#supp-rbd-class-comparison) 
 
-For the description of baseline characteristics see [Supp.Baseline](#supp-baseline).
 
 <br/><br/>
 
@@ -58,13 +57,15 @@ For the description of baseline characteristics see [Supp.Baseline](#supp-baseli
 
 <br/><br/>
 
+## Baseline Neuroimaging and Biomarker Associations
 To ensure computation stability and numerical convergence, predictors were structured into two primary thematic blocks: MRI regional volumes (N = 474) and biofluid/clinical biomarkers (N = 240). Age, sex, and education were included as covariates in both models. Finally, UPSIT, Specific Binding Ratios (SBR), and APOE were evaluated using their maximum available sample sizes, with the more restricted combined model (N = 240) serving as a sensitivity analysis to verify the consistency of effect sizes and directions across cohorts.
 
 Logistic regression was performed using the raw scales for all predictors to ensure model integrity. However, for the reported results, ORs for MRI metrics were calculated by standardizing the coefficients per standard deviation. This transformation was necessary because the raw numerical scales of normalized brain volumes (often <0.1% of eTIV) produce ORs that are either extreme or indistinguishable from 1.0, hindering cross-domain comparison. Clinical and biofluid markers remain on their raw scales for direct clinical interpretation.
 
-To validate the clinical relevance of the identified classes, we compared baseline UPSIT scores as an external benchmark. Olfactory function was significantly lower in both the high-burden ($p$ = .005) and increasing-burden ($p$ = .002) groups. Aligning with the "Diffuse Malignant" phenotype [@fereshtehnejadNewClinicalSubtypes2015], these findings confirm the model’s capacity to capture established biological patterns of PD heterogeneity using non-indicator variables.
+To validate the clinical relevance of the identified classes, we compared baseline UPSIT scores as an external benchmark. Olfactory function was significantly lower in both the high-burden ($p$ = .005) and increasing-burden ($p$ = .002) groups [Table 2](#multinomial-reg-table). Aligning with the "Diffuse Malignant" phenotype [@fereshtehnejadNewClinicalSubtypes2015], these findings confirm the model’s capacity to capture established biological patterns of PD heterogeneity using non-indicator variables.
 
-Longitudinal analysis revealed divergent temporal dynamics: while the high-burden class exhibited pronounced volumetric differences at baseline, the increasing-burden group was characterized by accelerated rates of structural change. We observed broad trends of accelerated ventricular and choroid plexus expansion in the latter; however, under rigorous False Discovery Rate correction (n = 382), only the inferior lateral ventricle slope survived the significance threshold ($q$ < .10).
+## Longitudinal Structural Change
+Longitudinal analysis revealed divergent temporal dynamics: while the high-burden class exhibited pronounced volumetric differences at baseline, the increasing-burden group was characterized by accelerated rates of structural change [Figure 1 (E)](#figure-main). We observed broad trends of accelerated ventricular and choroid plexus expansion in the latter; however, under rigorous False Discovery Rate correction (n = 382), only the inferior lateral ventricle slope survived the significance threshold ($q$ < .10) [Table 3](#lmm-slope-table).
 
 <br/><br/>
 
@@ -123,24 +124,23 @@ Longitudinal analysis revealed divergent temporal dynamics: while the high-burde
 
 <br/><br/>
 
-The XGBoost model achieved an identical test-set AUC of 0.88 (cross-validated balanced accuracy = 0.73). Native importance metrics identified baseline RBDSQ scores as the overwhelmingly dominant classifier by both split frequency (weight = 340) and information gain (8.2), tripling the next-highest feature. Class-specific SHAP analyses revealed distinct phenotypic profiles: the high-burden class was overwhelmingly driven by RBD severity, the low-burden class exhibited a distributed profile led by RBD and autonomic metrics, and the increasing-burden class was characterized by postural instability and dopaminergic imaging metrics ($F_1$ = 0.36). Notably, CSF $\alpha$-synuclein SAA status ranked prominently in native tree metrics but was negligible in global SHAP values, reflecting its macro-level utility in isolating the low-burden stable sub-population rather than driving patient-level clinical discrimination.
+## Early-Stage Subtype Prediction
+The XGBoost model achieved an AUC of 0.88 and cross-validated balanced accuracy of 0.73. Baseline RBDSQ was the single most discriminative predictor of class membership by both split frequency and information gain, tripling the next-ranked feature. Class-specific SHAP analysis [Figure 1 (F)](#figure-main) revealed that Class 1 was overwhelmingly driven by RBD severity; Class 2 showed a more distributed profile led by RBD, olfactory function, autonomic dysfunction, and anxiety; and Class 3 had the broadest SHAP profile with postural instability and dopaminergic imaging as notable contributors, consistent with its lower classification accuracy (F1 = 0.36). CSF α-synuclein SAA ranked prominently in native tree metrics but not in SHAP values, reflecting population-level rather than patient-level discriminative utility.
 
 <br/><br/>
 
 # Discussion
-
 While REM sleep behavior disorder is a well-established prognostic marker, it is typically deployed in progression studies as a static or binary baseline feature [@velucci2025nonmotor; @liuLongitudinalChangesParkinsons2021]. Our findings highlight its dynamic evolution. In our longitudinal analysis, many individual clinical scales failed to form distinct subtypes independently (with BIC favoring single-class solutions). Instead, longitudinal RBDSQ trajectories contributed the vast majority of the variance, driving the latent class structure and demonstrating that RBD-related heterogeneity evolves well beyond the prodromal stage.
 
 This longitudinal approach yields markedly different prognostic insights compared to baseline clustering. For instance, the highly cited diffuse/malignant phenotype [@fereshtehnejadNewClinicalSubtypes2015] couples a wide breadth of severe baseline symptoms with rapid global progression. While our Class 1 shares this severe baseline multi-domain profile (Table S6) and resembles the RBD+ cluster [@velucci2025nonmotor], its symptom progression was not exclusively the most rapid. Instead, Class 3 demonstrated the steepest multi-domain deterioration despite much milder baseline symptoms. Because our multivariate LCMM models domain-specific trajectories rather than collapsing metrics into a single composite score, these results confirm that initial symptom burden and subsequent progression rates represent distinct, decoupled dimensions of Parkinson's disease heterogeneity.
 
 Consequently, our trajectory-derived subtypes align less with traditional baseline clustering and more closely with studies focused specifically on longitudinal RBD progression. Notably, our data-driven classes remarkably mirror the a priori clinical groups defined by @Ye2022RBDProgressionPD. Their largest group, the non-RBD-stable phenotype, matches our low-burden stable class (Class 2). Our Class 3 strongly aligns with their "late-RBD" group (12.1% of their cohort), showing a late-emerging probable RBD trajectory that crosses the clinical threshold around Year 2. This transitional, high-risk phenotype exhibits baseline olfactory impairment and orthostatic hypotension [@y.saitohImpactLateonsetREM], signaling non-motor vulnerability before overt RBD emergence. Finally, our high-burden Class 1 likely represents a combination of their pRBD-stable and pRBD-reversion phenotypes—supported by a slight reversion in Class 1's RBDSQ scores during Years 4 and 5—as our fit metrics (AIC/BIC) did not support splitting into a four-class solution.
 
-Finally, while we did not directly measure $\alpha$-synuclein pathology, these distinct trajectories tentatively align with proposed models of Lewy body spatial progression. Class 1's early concurrent triad of RBD, autonomic, and olfactory dysfunction resembles a "body-first" or brainstem-early trajectory [@borghammerBrainFirstGutFirstParkinsons2019; @mastenbroekDiseaseProgressionModelling2024]. Conversely, Class 3's post-motor RBD onset and rapid cognitive decline suggests a "brain-first" origin with delayed, steep brainstem involvement. Class 2, persistently lacking RBD, may represent a phenotype where pathology remains temporarily confined to olfactory regions. Ultimately, the longitudinal timing of RBD expression appears to carry critical, albeit interpretive, pathophysiological weight.
+Finally, while we did not directly measure α-synuclein pathology, these distinct trajectories tentatively align with proposed models of Lewy body spatial progression. Class 1's early concurrent triad of RBD, autonomic, and olfactory dysfunction resembles a "body-first" or brainstem-early trajectory [@borghammerBrainFirstGutFirstParkinsons2019; @mastenbroekDiseaseProgressionModelling2024]. Conversely, Class 3's post-motor RBD onset and rapid cognitive decline suggests a "brain-first" origin with delayed, steep brainstem involvement. Class 2, persistently lacking RBD, may represent a phenotype where pathology remains temporarily confined to olfactory regions. Ultimately, the longitudinal timing of RBD expression appears to carry critical, albeit interpretive, pathophysiological weight.
 
 Smaller baseline thalamus and putamen volumes predict membership in the high-burden class relative to the low-burden stable class, matching literature identifying these regions as structural markers for pRBD and aggressive PD [@boucettaStructuralBrainAlterations2016; @ellmoreReducedVolumePutamen2010; @rahayelBrainAtrophyParkinsons2019; @salsoneReducedThalamicVolume2014]. Conversely, the high-burden and increasing-burden classes predicted larger baseline volumes in the hippocampus and pallidum, respectively. While pRBD is sometimes associated with volume loss in these structures [@limNeuralSubstratesRapid2016], morphometric analysis demonstrates that PD patients without RBD exhibit significant localized surface shape contraction in both the hippocampus and pallidum [@rahayelBrainAtrophyParkinsons2019]. Because this low-burden stable population serves as our statistical reference group, we hypothesize that their localized shape deformations distort automated boundary detection, artificially manifesting as relative hypertrophy in our tracking classes.
 
 Longitudinally, neurodegeneration tracks clinical evolution; the increasing-burden class displays accelerated ventricular and choroid plexus expansion — a marker of progressive central atrophy and altered cerebrospinal fluid dynamics linked to impaired glymphatic clearance [@he2023motor]—alongside slower caudate atrophy relative to the low-burden stable class, highlighting distinct subcortical phenotypes requiring future whole-brain context.
-
 
 <br/><br/>
 
@@ -152,7 +152,6 @@ $^\dagger$ These authors contributed equally to this work.
 [^1]: **Bolded** values indicate $p < 0.05$.
 [^2]: Demographic variables (Age, Sex, Education) were included as controls in all models.
 [^3]: Results surviving False Discovery Rate (FDR) correction are indicated in **bold** in addition to unadjusted $p < 0.05$ results.
-
 
 
 
@@ -300,40 +299,6 @@ Analyses were performed in R (4.5.3) and Python (3.12.13). `multlcmm` function i
 
 8.	**Sensitivity analyses:** Models were initially estimated using raw/pre-transformed scores. As z-standardized scores yielded identical class solutions (ARI = 1, Cramér's V = 1) while facilitating convergence in downstream analyses, z-standardized scores were adopted as the primary model specification.
 
-### Table S4
-RBDSQ LCMM model selection and classification metrics
-
-```{csv-table} 
-:header-rows: 1
-:name: supp-rbd-model-selection-2dp
-:align: center
-:widths: 8, 16, 16, 12, 12, 22, 22, 12
-
-"K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
-"1","-7504.38","1.00","15016.75","15035.76","100.00","-","-"
-"2","-7403.28","0.80","14820.56","14853.82","27.37<br>72.63","0.90<br>0.96","-"
-"**3**","**-7326.08**","**0.76**","**14672.16**","**14719.67**","**19.30<br>66.43<br>14.27**","**0.87<br>0.92<br>0.79**","**27.90<br>6.11<br>23.10**"
-"4","-7326.08","0.54","14678.16","14739.92","15.32<br>19.42<br>65.26<br>0.00","0.77<br>0.87<br>0.68<br>NaN","-"
-```
-*Note. The 4-class model yielded an empty class (0.00%) and undefined posterior probability (NaN), indicating a degenerate solution.
-
-
-### Table S5
-Comparison of class assignments between the z-score multivariate LCMM model (A) and the RBD-only LCMM model (C)
-```{csv-table} 
-:header-rows: 1
-:name: supp-rbd-class-comparison
-:align: center
-:widths: 20, 15, 15, 15, 15
-
-"","A: Class 1","A: Class 2","A: Class 3","Total"
-"C: Class 1","163","2","0","165"
-"C: Class 2","1","564","3","568"
-"C: Class 3","9","2","111","122"
-"Total","173","568","114","855"
-```
-ARI = 0.956; Cramér's V = 0.950.
-
 
 ### Missingness and attrition
 The missing rates for RBDSQ, MoCA, ΔSBP, and UPDRS Part III were 0.88%, 1.09%, 2.99%, and 15.99%, respectively. LCMM accommodates incomplete longitudinal data, so no additional missingness handling was performed. Little's MCAR test was significant (χ² = 208, df = 28, p < .001), indicating that data were not missing completely at random. Differential attrition was observed across classes, with Year 5 completion rates of 20.2%, 28.5%, and 41.2% for Classes 1, 2, and 3, respectively. As Class 1 also exhibited the overall highest baseline disease burden, attrition was likely associated with observed disease severity, supporting MAR as a reasonable assumption. Although LCMM is expected to limit the impact of differential attrition under MAR, later trajectory estimates for Class 1 are based on a smaller and potentially less severely affected subsample, which may limit their representativeness.
@@ -385,7 +350,43 @@ We employed XGBoost, a gradient boosting framework optimised for tabular data to
 
 
 
-### Figure S3
+### Table S1
+RBDSQ LCMM model selection and classification metrics
+
+```{csv-table} 
+:header-rows: 1
+:name: supp-rbd-model-selection-2dp
+:align: center
+:widths: 8, 16, 16, 12, 12, 22, 22, 12
+
+"K","Log-likelihood","Relative entropy","AIC","BIC","Proportion per class (%)","Average posterior probability","OCC"
+"1","-7504.38","1.00","15016.75","15035.76","100.00","-","-"
+"2","-7403.28","0.80","14820.56","14853.82","27.37<br>72.63","0.90<br>0.96","-"
+"**3**","**-7326.08**","**0.76**","**14672.16**","**14719.67**","**19.30<br>66.43<br>14.27**","**0.87<br>0.92<br>0.79**","**27.90<br>6.11<br>23.10**"
+"4","-7326.08","0.54","14678.16","14739.92","15.32<br>19.42<br>65.26<br>0.00","0.77<br>0.87<br>0.68<br>NaN","-"
+```
+*Note. The 4-class model yielded an empty class (0.00%) and undefined posterior probability (NaN), indicating a degenerate solution.
+
+
+### Table S2
+Comparison of class assignments between the z-score multivariate LCMM model (A) and the RBD-only LCMM model (C)
+```{csv-table} 
+:header-rows: 1
+:name: supp-rbd-class-comparison
+:align: center
+:widths: 20, 15, 15, 15, 15
+
+"","A: Class 1","A: Class 2","A: Class 3","Total"
+"C: Class 1","163","2","0","165"
+"C: Class 2","1","564","3","568"
+"C: Class 3","9","2","111","122"
+"Total","173","568","114","855"
+```
+ARI = 0.956; Cramér's V = 0.950.
+
+
+
+### Figure S1
 
 RBDSQ Estimated Mean Trajectories with 95% CIs and Raw Individual Trajectories in the MultLCMM (z-score model)
 
@@ -396,16 +397,8 @@ RBDSQ Estimated Mean Trajectories with 95% CIs and Raw Individual Trajectories i
 \end{figure}
 ```
 
-```{figure} ./table_clinical_v2.png
-:name: table-baseline-clinical
-:align: center
-:width: 100%
 
-Baseline clinical characteristics by latent class. Values are mean (SD) or n (%). Bold p-values indicate $p < 0.05$.
-```
-
-
-### Figure S4
+### Figure S2
 LMM Predicted Trajectories, for regions where nominal differences were found between Class 2 and Class 3
 ```{image} ./s4.png
 :name: lmm-predicty
@@ -414,8 +407,6 @@ LMM Predicted Trajectories, for regions where nominal differences were found bet
 ```
 
 
-## XGBoost
-(supp-shap)=
 ### Figure S5
 SHAP beeswarm plot for Class 1
 ```{image} ./s5.png
@@ -434,6 +425,7 @@ ROC curves for one-vs-rest on the test set
 
 ```
 
+
 ## Limitations, Strengths, and Future Directions
 
 ### Cohort and Clinical Measurement Constraints
@@ -447,3 +439,56 @@ Third, our structural MRI analysis was restricted to a targeted subset of mostly
 
 ### Study Strengths
 Despite these limitations, our longitudinal multidomain approach successfully identifies progression phenotypes based on within-person change rather than static baseline severity alone. The robust associations demonstrating clear alignment between these latent trajectory classes and underlying clinical, biomarker, and MRI features strongly support their physiological relevance to dissecting PD heterogeneity.
+
+
+### Table S3: Baseline Characteristics
+
+```{figure} ./bl1.png
+:name: baseline-1
+:align: center
+:width: 100%
+
+Baseline characteristics (Part 1): Model indicators, demographics, and non-motor scales.
+```
+
+```{figure} ./bl2.png
+:name: baseline-2
+:align: center
+:width: 100%
+
+Baseline characteristics (Part 2): Cognitive tests, motor and functional scales.
+```
+
+```{figure} ./bl3.png
+:name: baseline-3
+:align: center
+:width: 100%
+
+Baseline characteristics (Part 3): Biomarkers and subcortical volumes.
+```
+
+```{figure} ./bl4.png
+:name: baseline-4
+:align: center
+:width: 100%
+
+Baseline characteristics (Part 4): Ventricular, cortical, white matter, and corpus callosum volumes.
+```
+
+```{figure} ./bl5.png
+:name: baseline-5
+:align: center
+:width: 100%
+
+Baseline characteristics (Part 5): Cortical thickness, Part 1 (Desikan-Killiany Atlas).
+```
+
+
+```{figure} ./bl6.png
+:name: baseline-6
+:align: center
+:width: 100%
+
+Baseline characteristics (Part 6): Cortical thickness, Part 2 (Desikan-Killiany Atlas).
+```
+
