@@ -57,11 +57,13 @@ Multivariate LCMM identified a three-class solution as optimal based on the lowe
 <br/><br/>
 
 ## Baseline Neuroimaging and Biomarker Associations
-Baseline MRI Odds Ratios (ORs) were standardized per standard deviation to resolve scaling artifacts from raw normalized volumes; clinical and biofluid markers remained on their raw scales.
+
+Baseline MRI ORs are reported per standard deviation increase to facilitate interpretation, as eTIV-normalized volumes are measured on very small scales. Clinical and biofluid markers remained on their raw scales.
 
 Baseline olfactory function (UPSIT) was significantly lower in both the high-burden ($p$ = 0.005) and increasing-burden ($p$ = 0.002) classes ([Table 2](#multinomial-reg-table)), validating the model's capacity to capture external clinical heterogeneity. Subcortical profiles further differentiated the cohorts: smaller baseline volumes of the thalamus ($p$ = 0.026) and putamen ($p$ = 0.023) predicted high-burden class membership, whereas a larger baseline pallidum volume ($p$ = 0.033) predicted increasing-burden membership.
 
 ## Longitudinal Structural Change
+
 Longitudinal Linear Mixed Models revealed divergent temporal dynamics between classes ([Table 3](#lmm-slope-table)). The high-burden class showed unadjusted trends of accelerated atrophy across five regions: the amygdala, inferior temporal gyrus, parahippocampal gyrus, superior parietal lobule, and caudal middle frontal gyrus. Conversely, the increasing-burden class exhibited four unadjusted longitudinal trends: slower caudate atrophy alongside accelerated ventricular and choroid plexus expansion.
 
 No regional structural slopes survived False Discovery Rate (FDR) correction across the 20 evaluated regions. Consequently, these longitudinal variations represent exploratory trends rather than definitive trajectory markers.
