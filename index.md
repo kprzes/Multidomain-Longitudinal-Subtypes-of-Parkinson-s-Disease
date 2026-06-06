@@ -1,7 +1,7 @@
 ---
 title: REM Sleep Behaviour Disorder Dominates Heterogeneity in Longitudinal Analysis of Parkinson's Disease
 abstract: |
-    Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step externVar approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ as the most critical predictors of class membership.
+    Parkinson’s disease (PD) exhibits significant clinical heterogeneity, yet the longitudinal interplay between multidomain symptoms and structural biomarkers remains underexplored. We analyzed 5-year data from the PPMI cohort (N=855) using multivariate latent class mixed modeling (multlcmm) to identify distinct progression phenotypes. A two-step externVar approach assessed class predictors, while Linear Mixed Models and XGBoost characterized longitudinal atrophy and early-stage subtype prediction. Three classes emerged: Stable High-Burden (Class 1, n=173), Low-Burden (Class 2, n=568), and Increasing-Burden (Class 3, n=114). Model assignment was primarily driven by RBDSQ trajectories (ARI = 0.96) and validated by significantly lower baseline UPSIT scores in Classes 1 and 3 ($p$ < .01). Class 1 exhibited pronounced baseline atrophy, whereas Class 3 demonstrated accelerated longitudinal structural change. SHAP analysis identified baseline RBDSQ as the most critical predictor of class membership.
 acknowledgments: |
     This work was supported by the Impact Scholars Program. We thank the PPMI participants and staff.
 ---
@@ -68,56 +68,70 @@ Longitudinal analysis revealed divergent temporal dynamics: while the high-burde
 <br/><br/>
 
 
-```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2)[^1][^2]
+```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2). **Bolded** values indicate $p < 0.05$. ORs for MRI-derived features are standardized, other ORs are given in terms of raw units. Age and Sex were included as controls in all regressions, Education was additionally controlled for in all regressions except for the one carried out on the MRI-derived features.
 :header-rows: 1
 :name: multinomial-reg-table
 :align: center
-:widths: 40, 10, 12, 13, 12, 13
 
 "Predictor","N","Odds Ratio<br>(Class 1)","p-value<br>(Class 1)","Odds Ratio<br>(Class 3)","p-value<br>(Class 3)"
-"Sex (Male=1)","834","**3.28**","**<.001**","1.45","0.215"
-"Education (Years)","834","0.97","0.396","0.98","0.667"
-"Age","834","1.01","0.597","0.99","0.765"
-"UPSIT","834","**0.96**","**0.005**","**0.95**","**0.002**"
-"Thalamus","474","**0.55**","**0.020**","0.98","0.954"
-"Caudate","474","1.47","0.057","0.78","0.226"
-"Putamen","474","**0.52**","**0.004**","0.84","0.420"
-"Hippocampus","474","**1.64**","**0.038**","0.90","0.653"
-"Choroid Plexus","474","0.72","0.105","1.04","0.853"
-"Pallidum","474","1.23","0.271","**1.65**","**0.013**"
-"Lateral Ventricle","474","1.05","0.835","0.79","0.344"
-"Inf. Lat. Ventricle","474","1.31","0.175","1.07","0.751"
-"WM Hypointensities","474","0.64","0.181","1.11","0.646"
-"Cerebral White Matter","474","1.60","0.121","0.73","0.277"
-"CSF $\alpha$-synuclein","240","1.00","0.130","1.00","0.490"
-"CSF phosphorylated-$\tau$","240","1.12","0.203","1.06","0.345"
-"CSF amyloid-$\beta$","240","1.00","0.630","1.00","0.248"
-"UPSIT (sensitivity analysis)","240","0.97","0.233","0.95","0.076"
-"Serum NfL Chain","240","1.04","0.167","0.98","0.560"
-"Striatal SBR Caudate","240","0.38","0.425","1.09","0.941"
-"Striatal SBR Putamen","240","0.16","0.222","0.10","0.092"
-"APOE $\epsilon$4 (Carrier=1)","240","0.91","0.875","0.74","0.575"
+"Sex (Male=1)","855","**3.278**","**<.001**","1.633","0.093"
+"Education (Years)","855","0.975","0.471","0.984","0.718"
+"Age","855","1.011","0.432","1.005","0.775"
+"Striatal SBR Caudate (full)","846","0.436","0.075","0.550","0.323"
+"Striatal SBR Putamen (full)","846","0.767","0.579","0.249","0.054"
+"UPSIT (full)","834","**0.963**","**0.005**","**0.948**","**0.002**"
+"CSF-SAA (Positive=1) (full)","796","1.535","0.208","5.983","0.109"
+"CSF $\alpha$-synuclein","240","0.999","0.130","1.000","0.490"
+"CSF phosphorylated-$\tau$","240","1.117","0.203","1.062","0.345"
+"CSF amyloid-$\beta$","240","0.999","0.630","0.999","0.248"
+"UPSIT (overlap)","240","0.966","0.233","0.954","0.076"
+"Serum NfL Chain","240","1.043","0.167","0.978","0.560"
+"Striatal SBR Caudate (overlap)","240","0.375","0.425","1.089","0.941"
+"Striatal SBR Putamen (overlap)","240","0.163","0.222","0.098","0.092"
+"APOE $\epsilon$4 (Carrier=1)","240","0.911","0.875","0.744","0.575"
+"Thalamus","474","**0.596**","**0.026**","0.868","0.527"
+"Putamen","474","**0.613**","**0.023**","0.899","0.630"
+"Caudate","474","1.348","0.133","0.845","0.393"
+"Pallidum","474","1.147","0.478","**1.511**","**0.033**"
+"Insula","474","1.361","0.196","0.911","0.654"
+"Amygdala","474","1.000","0.974","0.924","0.732"
+"Hippocampus","474","1.537","0.058","1.036","0.903"
+"Inferior Temporal","474","0.954","0.807","1.057","0.776"
+"Para-Hippocampal","474","0.737","0.090","1.015","0.933"
+"Posterior Cingulate","474","1.048","0.825","0.863","0.494"
+"Superior Parietal","474","1.150","0.507","0.903","0.669"
+"Middle Frontal","474","0.863","0.386","1.024","0.903"
+"Anterior Cingulate","474","1.443","0.135","1.215","0.404"
 ```
 
 <br/><br/>
 
-```{csv-table} Comparison of MRI Volume Trajectory Slopes (Reference: Class 2)[^3]
+```{csv-table} Linear Mixed Models on MRI Volume and Cortical Thickness Trajectories (Reference: Class 2). P-values are shown for the differences in atrophy/expansion between classes. Unadjusted $p < 0.05$ results are indicated in **bold**. None of the results survived FDR correction. Age and sex were controlled for in all models.
 :header-rows: 1
 :name: lmm-slope-table
 :align: center
-:widths: 40, 10, 12, 13, 12, 13
 
 "Region","p-value<br>(Class 1)","FDR q<0.10<br>(Class 1)","p-value<br>(Class 3)","FDR q<0.10<br>(Class 3)"
-"Thalamus","0.950","0.990","0.835","0.928"
-"Caudate","0.684","0.977","**0.036**","0.109"
-"Putamen","0.433","0.865","0.306","0.510"
-"Hippocampus","0.561","0.935","0.090","0.180"
-"Choroid Plexus","0.990","0.990","**0.044**","0.109"
-"Pallidum","0.271","0.865","0.990","0.990"
-"Lateral Ventricle","0.393","0.865","**0.020**","0.101"
-"Inf. Lat. Ventricle","0.054","0.336","**0.009**","**0.089**"
-"Cerebral White Matter","0.799","0.990","0.430","0.538"
-"WM Hypointensities","0.067","0.336","0.378","0.538"
+"Thalamus","0.950","0.990","0.835","0.879"
+"Caudate","0.684","0.808","**0.036**","0.204"
+"Putamen","0.433","0.618","0.306","0.680"
+"Hippocampus","0.561","0.748","0.090","0.258"
+"Choroid Plexus","0.990","0.990","**0.044**","0.204"
+"Pallidum","0.271","0.542","0.990","0.990"
+"Lateral Ventricle","0.393","0.618","**0.020**","0.202"
+"Inf. Lat. Ventricle","0.054","0.180","**0.009**","0.177"
+"Cerebral White Matter","0.799","0.888","0.430","0.782"
+"WM Hypointensities","0.067","0.192","0.378","0.756"
+"Amygdala","**0.010**","0.120","0.768","0.853"
+"Insula","0.414","0.618","0.757","0.853"
+"Inferior Temporal","**0.012**","0.120","0.470","0.783"
+"Para-Hippocampal","**0.028**","0.180","0.651","0.853"
+"Posterior Cingulate","0.148","0.330","0.069","0.231"
+"Superior Parietal","**0.047**","0.180","0.145","0.363"
+"Rostral Middle Frontal","0.686","0.808","0.701","0.853"
+"Caudal Middle Frontal","**0.049**","0.180","0.512","0.788"
+"Rostral Anterior Cingulate","0.340","0.618","0.751","0.853"
+"Caudal Anterior Cingulate","0.116","0.291","0.051","0.204"
 ```
 
 <br/><br/>
@@ -146,10 +160,6 @@ $^\dagger$ These authors contributed equally to this work.
 
 <br/><br/>
 
-
-[^1]: **Bolded** values indicate $p < 0.05$.
-[^2]: Demographic variables (Age, Sex, Education) were included as controls in all models.
-[^3]: Results surviving False Discovery Rate (FDR) correction are indicated in **bold** in addition to unadjusted $p < 0.05$ results.
 
 
 
