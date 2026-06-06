@@ -345,7 +345,7 @@ For the cross-sectional multinomial logistic regression, we used Freesurfer outp
 
 ### XGBoost
 
-We employed XGBoost, a gradient boosting framework optimised for tabular data, to predict LCMM-derived latent classes from baseline features with the aim of developing a lightweight predictive model. The dataset included PATNO, LCMM class assignment, age, sex, race, baseline clinical scales, DaTScan features, genetics, biofluid markers, biomarkers. The dataset was split into training, validation, and test sets at a 70:15:15 ratio. Hyperparameters were optimised using random search over 100 configurations with 3-fold cross-validation. Sample weights and balanced accuracy were used to address class imbalance. Model performance was evaluated using AUC, and SHAP was used to interpret the XGBoost results.
+We employed XGBoost, a gradient boosting framework optimised for tabular data, to predict LCMM-derived latent classes from baseline features with the aim of developing a lightweight predictive model. The dataset included PATNO, LCMM class assignment, age, sex, race, baseline clinical scales, DaTScan features, genetics, biofluid markers. The dataset was split into training, validation, and test sets at a 70:15:15 ratio. Hyperparameters were optimised using random search over 100 configurations with 3-fold cross-validation. Sample weights and balanced accuracy were used to address class imbalance. Model performance was evaluated using AUC, and SHAP was used to interpret the XGBoost results.
 
 
 ## Limitations, Strengths, and Future Directions
