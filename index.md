@@ -60,7 +60,7 @@ Multivariate LCMM identified a three-class solution as optimal based on the lowe
 
 Baseline MRI ORs are reported per standard deviation increase to facilitate interpretation, as eTIV-normalized volumes are measured on very small scales. Clinical and biofluid markers remained on their raw scales.
 
-Baseline olfactory function (UPSIT) was significantly lower in both the high-burden ($p$ = 0.005) and increasing-burden ($p$ = 0.002) classes ([Table 2](#multinomial-reg-table)), validating the model's capacity to capture external clinical heterogeneity. Subcortical profiles further differentiated the cohorts: smaller baseline volumes of the thalamus ($p$ = 0.026) and putamen ($p$ = 0.023) predicted high-burden class membership, whereas a larger baseline pallidum volume ($p$ = 0.033) predicted increasing-burden membership.
+Baseline UPSIT was significantly lower in both the high-burden ($p$ = 0.005) and increasing-burden ($p$ = 0.002) classes ([Table 2](#multinomial-reg-table)), validating the model's capacity to capture external clinical heterogeneity [@sunOlfactoryDysfunctionWindow2025]. Whole striatum SBR was also significantly lower in both classes ($p$ = 0.020 and $p$ = 0.012, respectively), indicating reduced overall DAT binding which has often been found for early PD patients with pRBD [@xuNeuroimagingSleepDysfunction2025]. However, when caudate and putamen SBR were evaluated jointly (Multivariate DAT), neither showed an independent association with class membership. In multivariate MRI regression, smaller baseline thalamic ($p$ = 0.026) and putaminal ($p$ = 0.023) volumes independently predicted high-burden class membership, whereas larger baseline pallidal volume ($p$ = 0.033) independently predicted increasing-burden membership.
 
 ## Longitudinal Structural Change
 
@@ -71,40 +71,41 @@ No regional structural slopes survived False Discovery Rate (FDR) correction acr
 <br/><br/>
 
 
-```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2). **Bolded** values indicate $p < 0.05$. ORs for MRI-derived features are standardized, other ORs are given in terms of raw units. Age and Sex were included as controls in all regressions, Education was additionally controlled for in all regressions except for the one carried out on the MRI-derived features.
+```{csv-table} Multinomial Logistic Regression on Baseline Biomarkers (Reference: Class 2). **Bolded** values indicate $p < 0.05$. ORs for the Multivariate 2 (MRI) results are standardized, other ORs are given in terms of raw units. Age and Sex were included as covariates in all regressions. Education was additionally included in all regressions except for Multivariate 2.
 :header-rows: 1
 :name: multinomial-reg-table
 :align: center
 
-"Predictor","N","Odds Ratio<br>(Class 1)","p-value<br>(Class 1)","Odds Ratio<br>(Class 3)","p-value<br>(Class 3)"
-"Sex (Male=1)","855","**3.278**","**<.001**","1.633","0.093"
-"Education (Years)","855","0.975","0.471","0.984","0.718"
-"Age","855","1.011","0.432","1.005","0.775"
-"Striatal SBR Caudate (full)","846","0.436","0.075","0.550","0.323"
-"Striatal SBR Putamen (full)","846","0.767","0.579","0.249","0.054"
-"UPSIT (full)","834","**0.963**","**0.005**","**0.948**","**0.002**"
-"CSF-SAA (Positive=1) (full)","796","1.535","0.208","5.983","0.109"
-"CSF $\alpha$-synuclein","240","0.999","0.130","1.000","0.490"
-"CSF phosphorylated-$\tau$","240","1.117","0.203","1.062","0.345"
-"CSF amyloid-$\beta$","240","0.999","0.630","0.999","0.248"
-"UPSIT (overlap)","240","0.966","0.233","0.954","0.076"
-"Serum NfL Chain","240","1.043","0.167","0.978","0.560"
-"Striatal SBR Caudate (overlap)","240","0.375","0.425","1.089","0.941"
-"Striatal SBR Putamen (overlap)","240","0.163","0.222","0.098","0.092"
-"APOE $\epsilon$4 (Carrier=1)","240","0.911","0.875","0.744","0.575"
-"Thalamus","474","**0.596**","**0.026**","0.868","0.527"
-"Putamen","474","**0.613**","**0.023**","0.899","0.630"
-"Caudate","474","1.348","0.133","0.845","0.393"
-"Pallidum","474","1.147","0.478","**1.511**","**0.033**"
-"Insula","474","1.361","0.196","0.911","0.654"
-"Amygdala","474","1.000","0.974","0.924","0.732"
-"Hippocampus","474","1.537","0.058","1.036","0.903"
-"Inferior Temporal","474","0.954","0.807","1.057","0.776"
-"Para-Hippocampal","474","0.737","0.090","1.015","0.933"
-"Posterior Cingulate","474","1.048","0.825","0.863","0.494"
-"Superior Parietal","474","1.150","0.507","0.903","0.669"
-"Middle Frontal","474","0.863","0.386","1.024","0.903"
-"Anterior Cingulate","474","1.443","0.135","1.215","0.404"
+"Predictor","N","Analysis","Odds Ratio<br>(Class 1)","p-value<br>(Class 1)","Odds Ratio<br>(Class 3)","p-value<br>(Class 3)"
+"Sex (Male=1)","855","Demographics","**3.278**","**<.001**","1.633","0.093"
+"Education (Years)","855","Demographics","0.975","0.471","0.984","0.718"
+"Age","855","Demographics","1.011","0.432","1.005","0.775"
+"Whole Striatum SBR","846","Univariate","**0.324**","**0.020**","**0.136**","**0.012**"
+"Caudate SBR (full)","846","Multivariate DAT","0.436","0.075","0.550","0.323"
+"Putamen SBR (full)","846","Multivariate DAT","0.767","0.579","0.249","0.054"
+"UPSIT (full)","834","Univariate","**0.963**","**0.005**","**0.948**","**0.002**"
+"CSF-SAA (Positive=1)","796","Univariate","1.535","0.208","5.983","0.109"
+"CSF $\alpha$-synuclein","240","Multivariate 1","0.999","0.130","1.000","0.490"
+"CSF phosphorylated-$\tau$","240","Multivariate 1","1.117","0.203","1.062","0.345"
+"CSF amyloid-$\beta$","240","Multivariate 1","0.999","0.630","0.999","0.248"
+"UPSIT (overlap)","240","Multivariate 1","0.966","0.233","0.954","0.076"
+"Serum NfL Chain","240","Multivariate 1","1.043","0.167","0.978","0.560"
+"Caudate SBR (overlap)","240","Multivariate 1","0.375","0.425","1.089","0.941"
+"Putamen SBR (overlap)","240","Multivariate 1","0.163","0.222","0.098","0.092"
+"APOE $\epsilon$4 (Carrier=1)","240","Multivariate 1","0.911","0.875","0.744","0.575"
+"Thalamus","474","Multivariate 2","**0.596**","**0.026**","0.868","0.527"
+"Putamen","474","Multivariate 2","**0.613**","**0.023**","0.899","0.630"
+"Caudate","474","Multivariate 2","1.348","0.133","0.845","0.393"
+"Pallidum","474","Multivariate 2","1.147","0.478","**1.511**","**0.033**"
+"Insula","474","Multivariate 2","1.361","0.196","0.911","0.654"
+"Amygdala","474","Multivariate 2","1.000","0.974","0.924","0.732"
+"Hippocampus","474","Multivariate 2","1.537","0.058","1.036","0.903"
+"Inferior Temporal","474","Multivariate 2","0.954","0.807","1.057","0.776"
+"Para-Hippocampal","474","Multivariate 2","0.737","0.090","1.015","0.933"
+"Posterior Cingulate","474","Multivariate 2","1.048","0.825","0.863","0.494"
+"Superior Parietal","474","Multivariate 2","1.150","0.507","0.903","0.669"
+"Middle Frontal","474","Multivariate 2","0.863","0.386","1.024","0.903"
+"Anterior Cingulate","474","Multivariate 2","1.443","0.135","1.215","0.404"
 ```
 
 <br/><br/>
@@ -151,7 +152,7 @@ This longitudinal approach yields markedly different prognostic insights compare
 
 Our trajectory-derived subtypes align more closely with longitudinal RBD progression studies than with traditional baseline clustering. Our data-driven classes mirror the a priori groups defined by @Ye2022RBDProgressionPD. Their largest group, the non-RBD-stable phenotype, matches our low-burden stable class (Class 2). Our Class 3 strongly aligns with their "late-RBD" group (12.1% of their cohort), showing a late-emerging probable RBD trajectory that crosses the clinical threshold around Year 2. This transitional, high-risk phenotype exhibits baseline olfactory impairment and orthostatic hypotension [@y.saitohImpactLateonsetREM]. Our high-burden Class 1 likely represents a combination of their pRBD-stable and pRBD-reversion phenotypes—supported by a slight reversion in Class 1's RBDSQ  during Years 4 and 5.
 
-Smaller baseline thalamus and putamen volumes predicted high-burden class membership, consistent with their identification as early structural markers for pRBD and aggressive PD [@boucettaStructuralBrainAlterations2016; @ellmoreReducedVolumePutamen2010; @rahayelBrainAtrophyParkinsons2019; @salsoneReducedThalamicVolume2014]. Conversely, increasing-burden membership predicted larger baseline pallidal volumes. Although pallidal atrophy has been linked to RBD progression, evidence for baseline pallidal differences is limited. Prior morphometric analyses show that PD patients without RBD exhibit localized pallidal surface contraction [@rahayelBrainAtrophyParkinsons2019], which may contribute to apparent volumetric differences given our low-burden reference group.
+The independent associations identified in the multivariable MRI regression are not directly comparable with most previous neuroimaging studies, which primarily relied on univariate statistical tests. Kruskal-Wallis tests identified overall differences for the thalamus ($p$ = 0.005) and putamen ($p$ = 0.036), but not the pallidum ($p$ = 0.226) ([Supp.Baseline](#supp-baseline)), while post-hoc Dunn's tests identified no significant pairwise differences. Together, these findings suggest that adjusting for the shared variance between regions improved the identification of pairwise class-specific associations. The thalamic and putaminal findings are consistent with their identification as early structural markers in pRBD [@boucettaStructuralBrainAlterations2016; @ellmoreReducedVolumePutamen2010; @rahayelBrainAtrophyParkinsons2019; @salsoneReducedThalamicVolume2014]. Evidence for baseline pallidal volumetric differences is limited. However, pallidal shape contraction has been reported predominantly in PD patients without RBD [@rahayelBrainAtrophyParkinsons2019], while pallidal hypertrophy has also been observed in PD patients with excessive daytime sleepiness compared to patients without [@gongStriatumShapeHypertrophy2020], suggesting that larger pallidal volumes relative to the low-burden reference class are not necessarily implausible. Nevertheless, given the relatively small MRI sample for the increasing-burden class (N = 63), this finding requires independent validation.
 
 Although longitudinal structural alterations did not survive strict FDR correction, their unadjusted trends offer exploratory mechanistic insights. The high-burden class exhibited accelerated atrophy in the amygdala, parahippocampal gyrus, and superior parietal lobule. Amygdalar atrophy directly aligns with longitudinal pRBD findings [@yoonProbableREMSleep2021] and contextualizes this cohort's significantly elevated baseline depression and anxiety (GDS/STAI). Furthermore, parahippocampal and superior parietal thinning mirror longitudinal structural progression patterns distinguishing RBD from non-RBD PD phenotypes [@Ye2022RBDProgressionPD]. Conversely, the increasing-burden class trended toward accelerated ventricular and choroid plexus expansion—radiological markers of central pan-atrophy and altered CSF dynamics linked to impaired glymphatic clearance [@he2023motor].
 
@@ -279,10 +280,10 @@ WM
 : White Matter
 
 <br/><br/>
+<br/><br/>
 
 (supp-methodology)=
 ## Methodology
-
 
 ### Participants
 
@@ -290,6 +291,7 @@ Data acquired from Parkinson’s Progression Markers Initiative (PPMI) dataset (
 
 Participants were included if they met the following criteria at baseline: (1) drug-naïve with a levodopa equivalent daily dose (LEDD) of 0; (2) disease duration within 2 years; (3) early-stage disease defined by Hoehn-Yahr stage < 3; (4) no dementia; and (5) age onset ≥ 50 years to exclude early-onset Parkinson's disease. Participants were followed for up to 5 years, and only those with two or more follow-up visits were included, resulting in a total of 855 participants with Parkinson's disease.
 
+<br/><br/>
 
 ### Trajectory analysis
 Analyses were performed in R (v4.5.3) and Python (v3.12.13). `multlcmm` function in the R package `lcmm` [@proustlima2017lcmm] was applied for trajectory analysis. This approach follows the rationale of group-based trajectory modeling [@naginGroupBasedTrajectory2010], allowing several longitudinal markers measured on different clinical scales, to inform a common underlying latent disease process while accounting for marker-specific measurement relationships. Latent classes and individual membership probabilities were estimated within a maximum-likelihood framework, providing asymptotically unbiased parameter estimates under a missing-at-random (MAR) assumption. Follow-up time since baseline, measured in years, was used as the time indicator. The following steps were performed to optimize the analysis:
@@ -310,10 +312,12 @@ Analyses were performed in R (v4.5.3) and Python (v3.12.13). `multlcmm` function
 
 8.	**Sensitivity analyses:** Models were initially estimated using raw/pre-transformed scores. As z-standardized scores yielded identical class solutions (ARI = 1, Cramér's V = 1) while facilitating convergence in downstream analyses, z-standardized scores were adopted as the primary model specification.
 
+<br/><br/>
 
 ### Missingness and attrition
 The missing rates for RBDSQ, MoCA, ΔSBP, and UPDRS Part III were 0.88%, 1.09%, 2.99%, and 15.99%, respectively. LCMM accommodates incomplete longitudinal data, so no additional missingness handling was performed. Little's MCAR test was significant (χ² = 208, df = 28, p < .001), indicating that data were not missing completely at random. Differential attrition was observed across classes, with Year 5 completion rates of 20.2%, 28.5%, and 41.2% for Classes 1, 2, and 3, respectively. As Class 1 also exhibited the overall highest baseline disease burden, attrition was likely associated with observed disease severity, supporting MAR as a reasonable assumption. Although LCMM is expected to limit the impact of differential attrition under MAR, later trajectory estimates for Class 1 are based on a smaller and potentially less severely affected subsample, which may limit their representativeness.
 
+<br/><br/>
 
 ### Clinical assessments
 The above selected four input clinical scales, each representing a core clinical domain (sleep, cognitive, autonomic, and motor):
@@ -326,6 +330,7 @@ The above selected four input clinical scales, each representing a core clinical
 
 4.	**Motor severity:** Evaluated using the Movement Disorder Society – Unified Parkinson's Disease Rating Scale (MDS-UPDRS) Part III. A score between 33 to 58 was considered moderate motor impairment [@martinezmartin2015severity].
 
+<br/><br/>
 
 ### MRI processing
 
@@ -333,40 +338,55 @@ Baseline morphological and quality control data were obtained directly from the 
 
 Quality control for the Freesurfer data involved a rigorous outlier detection process using the Gap Statistic algorithm [@tibshiraniEstimatingNumberClusters2001] via the GapStatistics Python package [@loehrGapStatistics2025]. We focused on three key MRIQC metrics: the coefficient of joint variation (CJV), contrast-to-noise ratio (CNR), and entropy focus criterion.
 
+<br/><br/>
+
 ### Secondary Analysis
 
-Relating latent class models to external variables requires careful handling of estimation bias. The traditional "one-step" method where covariates and the latent class model are estimated simultaneously often suffers from model instability, as the inclusion of predictors can shift the latent structure itself. To avoid this, many studies fall into the trap of the "naive" three-step method (assigning participants to classes before regression), which produces biased parameter estimates by ignoring classification uncertainty. We instead employed the improved three-step and two-step frameworks developed to account for this uncertainty [@bolckEstimatingLatentStructure2004; @vermuntLatentClassModeling2010; @bakkTwoStepEstimationModels2018; @nylund-gibsonCovariatesMixtureModeling2016]. Specifically, we utilized the `externVar` function in the lcmm package [@proust-limaAccountingLatentClassn.d.], opting for the two-step method over the three-step bootstrap to maintain computational efficiency while achieving comparable bias reduction.
+Relating latent class models to external variables requires careful handling of estimation bias. The traditional one-step method where covariates and the latent class model are estimated simultaneously often suffers from model instability, as the inclusion of predictors can shift the latent structure itself. To avoid this, many studies fall into the trap of the "naive" three-step method (assigning participants to classes before regression), which produces biased parameter estimates by ignoring classification uncertainty. We instead employed the improved three-step and two-step frameworks developed to account for this uncertainty [@bolckEstimatingLatentStructure2004; @vermuntLatentClassModeling2010; @bakkTwoStepEstimationModels2018; @nylund-gibsonCovariatesMixtureModeling2016]. Specifically, we utilized the `externVar` function in the lcmm package [@proust-limaAccountingLatentClassn.d.], opting for the two-step method over the three-step bootstrap to maintain computational efficiency while achieving comparable bias reduction.
 
-Because the two-step regression function explicitly accounts for latent class assignment uncertainty, the variance-covariance estimation is highly parameter-heavy. Attempting to fit all covariates into a single unified model led to non-convergence (the algorithm destabilized with >15 predictors) and would have caused severe sample attrition due to varying missingness profiles across modalities. Consequently, we implemented a tiered modelling strategy. Non-MRI variables (curated clinical scales, fluid biomarkers, and DAT imaging) were evaluated in a complete-case overlap cohort (N = 240). Due to extreme data sparsity causing quasi-complete separation, the categorical SAA variable was restricted to an independent available-case sensitivity model (N = 796) to prevent sparse data bias from corrupting concurrent covariates, as this effect has been noted to potentially be more detrimental than missing variable bias [@greenlandSparseDataBias2016]. Furthermore, SAA was binarized into "LBD-like" and "other" (combining MSA-like, inconclusive, and negative results), as these alternate categories were too sparse to be modelled independently even within the larger available-case cohort. MRI modalities were evaluated in a dedicated, parallel structural regression model (N = 474).
+Because the two-step regression function explicitly accounts for latent class assignment uncertainty, it requires substantially more parameters than a conventional regression model. Attempting to fit all predictors into a single unified model led to non-convergence (the algorithm destabilized with >15 predictors) and would have caused severe sample reduction due to varying missingness profiles across modalities. Consequently, a tiered modelling strategy was implemented. Non-MRI variables (UPSIT, fluid biomarkers, and DAT imaging) were evaluated in a complete-case overlap cohort (N = 240, denoted Multivariate 1 in the Results section), while MRI-derived regional volumes were evaluated in a dedicated parallel structural model (N = 474, Multivariate 2 in the Results section).
+
+To avoid unnecessary loss of information, UPSIT and the SBRs from DAT imaging were additionally evaluated in available-case regressions using their full respective cohorts (N = 834 and N = 846), as restricting these variables to the overlap cohort would have reduced the available sample by more than threefold. Whole striatum SBR was analysed in a univariate regression to provide an overall picture of DAT binding differences between classes, whereas caudate and putamen SBR were evaluated jointly for any independent predictive value (Multivariate DAT in the Results section). The available-case results for UPSIT and DAT imaging are  reported alongside the overlap results for these variables, to determine whether restricting the sample primarily affected statistical power or materially altered the estimated associations.
+
+Due to extreme data sparsity of the categorical CSF SAA variable, it was analysed only in its independent available-case model (N = 796) to prevent sparse-data bias from corrupting concurrent covariates, as this effect has been noted to potentially be more detrimental than missing-variable bias [@greenlandSparseDataBias2016]. Furthermore, SAA was binarized into "LBD-like" and "other" (combining MSA-like, inconclusive, and negative results), as these alternate categories were too sparse to be modelled independently even within the larger available-case cohort. For the fluid biomarkers, red blood cells represent a significant source of interference in α-synuclein assays [@barbourRedBloodCells2008]. To account for this, we leveraged the PPMI hemoglobin (Hb) threshold indicators. Comparative analysis confirmed that α-synuclein levels did not differ significantly in median (Mann-Whitney U, $p$ = 0.627) or distribution (Kolmogorov-Smirnov, $p$ = 0.495) between samples with detectable Hb (N = 60) and those without (N = 265); consequently, the full sample was retained to maximize statistical power. Associations between monogenic PD variants and class membership were not evaluated due to the high prevalence of sporadic cases (N = 808, 94.5%). Similarly, APOE $\epsilon$4 status was binarized (carrier vs. non-carrier) because homozygous cases were too infrequent for independent analysis.
 
 For the cross-sectional multinomial logistic regression, we utilized a mix of volume and thickness metrics derived from FreeSurfer, depending on the specific region. Subcortical volumes were normalized by estimated Total Intracranial Volume (eTIV) to account for head size [@voevodskayaEffectsIntracranialVolume2014], while cortical thicknesses were normalized by mean cortical thickness. For the longitudinal Linear Mixed Models (LMM) investigating atrophy and ventricular expansion rates, we utilized FastSurfer outputs. Because FastSurfer does not provide an eTIV estimate, these volumes were instead normalized using MaskVol; this shift was a necessary adaptation to the respective software pipelines rather than a change in statistical strategy. Notably, FastSurfer segmentation directly provides volumes for cortical regions, allowing us to include them in the longitudinal analysis without the need to run time-intensive surface reconstructions across multiple timepoints.
 
-Given the strict parameter limits of the uncertainty-adjusted regression, structural predictor selection required targeted refinement. Because our derived latent classes were predominantly characterized by their evolving REM sleep behaviour disorder (RBD) phenotypes, we restricted a priori region of interest (ROI) selection to 13 specific cortical and subcortical structures demonstrated in the literature to differ morphologically between PD patients with and without RBD [@boucettaStructuralBrainAlterations2016; @ellmoreReducedVolumePutamen2010; @rahayelBrainAtrophyParkinsons2019; @salsoneReducedThalamicVolume2014; @limNeuralSubstratesRapid2016; @Ye2022RBDProgressionPD; @yoonProbableREMSleep2021]. Comparisons to healthy controls were omitted from this rationale as our models exclusively evaluated intra-disease phenotypic progression. To prevent multicollinearity in the regression, left and right hemisphere outputs were averaged across all regions. Additionally, we consolidated the caudal and rostral sub-regions of the anterior cingulate and middle frontal cortices by summing their volumes, as the broader neuroimaging literature rarely distinguishes between these specific Desikan-Killiany parcellation subdivisions. Multicollinearity among the final selected predictors was assessed using Variance Inflation Factors (VIF) via the car library [@johnfoxCompanionAppliedRegression2019], with all predictors yielding acceptable values (VIF < 5).
-
-For the fluid biomarkers, red blood cells represent a significant source of interference in α-synuclein assays [@barbourRedBloodCells2008]. To account for this, we leveraged the PPMI hemoglobin (Hb) threshold indicators. Comparative analysis confirmed that α-synuclein levels did not differ significantly in median (Mann-Whitney U, p = 0.627) or distribution (Kolmogorov-Smirnov, p = 0.495) between samples with detectable Hb (n = 60) and those without (n = 265); consequently, the full sample was retained to maximize statistical power. Associations between monogenic PD variants and class membership were not evaluated due to the high prevalence of sporadic cases (N = 808, 94.5%). Similarly, APOE ε4 status was binarized (carrier vs. non-carrier) because homozygous cases were too infrequent for independent analysis.
+Given the strict parameter limits of the uncertainty-adjusted regression, structural predictor selection required targeted refinement. Because our derived latent classes were predominantly characterized by their evolving REM sleep behaviour disorder (RBD) phenotypes, we restricted a priori region of interest (ROI) selection to 13 specific cortical and subcortical structures demonstrated in the literature to differ morphologically between PD patients with and without RBD [@boucettaStructuralBrainAlterations2016; @ellmoreReducedVolumePutamen2010; @rahayelBrainAtrophyParkinsons2019; @salsoneReducedThalamicVolume2014; @limNeuralSubstratesRapid2016; @Ye2022RBDProgressionPD; @yoonProbableREMSleep2021]. Comparisons to healthy controls were omitted from this rationale as our models exclusively evaluated intra-disease phenotypic progression. To prevent multicollinearity in the regression, left and right hemisphere outputs were averaged across all regions. Additionally, we consolidated the caudal and rostral sub-regions of the anterior cingulate and middle frontal cortices by summing their volumes, as the broader neuroimaging literature rarely distinguishes between these specific Desikan-Killiany parcellation subdivisions. Multicollinearity among the final selected predictors was assessed using Variance Inflation Factors (VIF) via the car library [@johnfoxCompanionAppliedRegression2019], with all predictors yielding acceptable values (VIF < 4).
 
 The relationship between class membership and longitudinal atrophy was implemented using the hlme function via LMM. We acknowledge that this longitudinal analysis utilized a modal (naive) class assignment, as a corrected bias-adjustment method for LMMs was not available in the current lcmm implementation. Because the LMMs were treated as an exploratory longitudinal extension, the caudal and rostral parts of the cortical regions were analysed independently rather than summed. We also expanded this longitudinal analysis to include several additional whole-brain metrics: the ventricles (as indicators of general central atrophy), the choroid plexus (a marker of altered glymphatic clearance) [@he2023motor], total cerebral white matter (a marker of general structural connectivity), and white matter hypointensities, which served as a marker of white matter lesion burden [@weiWhiteMatterHypointensities2019].
 
+<br/><br/>
 
 ### XGBoost
 
 We employed XGBoost, a gradient boosting framework optimised for tabular data, to predict LCMM-derived latent classes from baseline features with the aim of developing a lightweight predictive model. The dataset included PATNO, LCMM class assignment, age, sex, race, baseline clinical scales, DaTScan features, genetics, biofluid markers. The dataset was split into training, validation, and test sets at a 70:15:15 ratio. Hyperparameters were optimised using random search over 100 configurations with 3-fold cross-validation. Sample weights and balanced accuracy were used to address class imbalance. Model performance was evaluated using AUC, and SHAP was used to interpret the XGBoost results.
 
+<br/><br/>
+<br/><br/>
 
 ## Limitations, Strengths, and Future Directions
 
 ### Cohort and Clinical Measurement Constraints
 Several limitations should be considered when interpreting these findings. First, while the PPMI dataset provides an unprecedented de novo PD cohort, it represents a highly educated, predominantly white demographic that excludes atypical parkinsonism or early dementia, limiting immediate generalizability to broader clinical populations. Clinically, REM sleep behavior disorder was assessed via the RBDSQ rather than polysomnography, reflecting probable symptom trajectories (pRBD) rather than confirmed diagnoses. Additionally, simplifying the multisystem complexity of PD by representing each clinical domain with a single scale, alongside collecting data post-diagnosis, prevents us from inferring the exact temporal order of early pathological events or $\alpha$-synuclein propagation.
 
+<br/><br/>
+
 ### Statistical Modeling, Missing Data, and Distal Outcomes
-Second, the use of Latent Class Mixed Models (LCMM) inherently assumes discrete categorical subpopulations within a continuous neurodegenerative spectrum. While LCMM natively handles missing longitudinal data, our secondary covariate analysis evaluates baseline variables as class predictors using a bias-adjusted 3-step method (`externVar()`). This framework highlights associations rather than strict causality and is currently restricted to a complete-case subset with overlapping biomarker data. To eliminate missing variable bias and leverage the full $N = 855$ cohort for secondary inference, future work will implement multiple imputation for these baseline biomarkers. Furthermore, while `externVar()` was deployed here exclusively for baseline predictors, it can also be used in future iterations of this work to relate trajectory classes directly to distal clinical outcomes, such as reaching Hoehn & Yahr Stage 3, mild cognitive impairment (MCI), and dementia.
+Second, the use of Latent Class Mixed Models (LCMM) inherently assumes discrete categorical subpopulations within a continuous neurodegenerative spectrum. While LCMM natively handles missing longitudinal data, our secondary covariate analysis evaluates baseline variables as class predictors using a bias-adjusted 2-step method (`externVar()`). This framework highlights associations rather than strict causality and is currently restricted to a complete-case subset with overlapping biomarker data. To eliminate missing variable bias and leverage the full $N = 855$ cohort for secondary inference, future work will implement multiple imputation for these baseline biomarkers. Furthermore, while `externVar()` was deployed here exclusively for baseline predictors, it can also be used in future iterations of this work to relate trajectory classes directly to distal clinical outcomes, such as reaching Hoehn & Yahr Stage 3, mild cognitive impairment (MCI), and dementia.
+
+<br/><br/>
 
 ### Neuroimaging Feature Selection and Pipeline Consistency
 Third, our structural MRI analysis was restricted to a targeted subset of mostly subcortical regional volumes. This restricted feature selection was a strict statistical necessity: the parameter-heavy, bias-adjusted 3-step method introduces severe convergence issues if overloaded with variables, constraining our initial model and leaving broader cortical alterations unexplored. To resolve this and expand our feature space into cortical thickness and broader regional volumes, future work will integrate a wider array of cortical metrics. To ensure strict within-subject consistency across these expanded longitudinal metrics, future iterations will transition from standard automated segmentation to a dedicated longitudinal pipeline utilizing FastSurfer with Surf-Recon, contingent on sufficient computational resources.
 
+<br/><br/>
+
 ### Study Strengths
 Despite these limitations, our longitudinal multidomain approach successfully identifies progression phenotypes based on within-person change rather than static baseline severity alone. The robust associations demonstrating clear alignment between these latent trajectory classes and underlying clinical, biomarker, and MRI features strongly support their physiological relevance to dissecting PD heterogeneity.
 
+<br/><br/>
+<br/><br/>
 
 ### Table S1
 RBDSQ LCMM model selection and classification metrics
